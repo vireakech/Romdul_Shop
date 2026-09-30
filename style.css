@@ -22,11 +22,224 @@
   --shadow-card: 0 18px 40px -20px rgba(10, 30, 22, 0.55);
 }
 
+/* ============ KEYFRAMES ============ */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-38px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(38px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes grow-line {
+  from {
+    transform: translateX(-0.5px) scaleY(0);
+  }
+  to {
+    transform: translateX(-0.5px) scaleY(1);
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes medallion-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes pulse-ring {
+  0%,
+  100% {
+    box-shadow: 0 0 0 6px rgba(217, 164, 65, 0.08), 0 0 18px rgba(217, 164, 65, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(217, 164, 65, 0.03), 0 0 30px rgba(217, 164, 65, 0.5);
+  }
+}
+
+@keyframes weave-drift {
+  from {
+    background-position: 0 0, 0 0;
+  }
+  to {
+    background-position: 200px 200px, -200px 200px;
+  }
+}
+
+@keyframes aurora-drift {
+  from {
+    transform: translate3d(-2%, -1%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(2%, 2%, 0) scale(1.08);
+  }
+}
+
+@keyframes sheen {
+  from {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(220%) skewX(-18deg);
+  }
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translateX(-2px);
+  }
+  20%, 80% {
+    transform: translateX(3px);
+  }
+  30%, 50%, 70% {
+    transform: translateX(-5px);
+  }
+  40%, 60% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* ============ SCROLL REVEAL UTILITIES ============ */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-left {
+  transform: translateX(-38px);
+}
+
+.reveal-right {
+  transform: translateX(38px);
+}
+
+.reveal-zoom {
+  transform: scale(0.92);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+}
+
+/* Scroll progress bar driven by script.js */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(to right, var(--rom-green), var(--dul-yellow), var(--clay));
+  z-index: 60;
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+
+  body,
+  body::before {
+    animation: none !important;
+  }
+
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-zoom {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
@@ -61,8 +274,26 @@ body {
       transparent 1px,
       transparent 10px
     );
+  background-size: 200px 200px, 200px 200px;
+  background-position: 0 0, 0 0;
+  animation: weave-drift 70s linear infinite;
   min-height: 100vh;
   line-height: 1.5;
+  position: relative;
+}
+
+/* Ambient glow layer that slowly breathes behind the content */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 18% 22%, rgba(31, 110, 82, 0.28), transparent 45%),
+    radial-gradient(circle at 82% 18%, rgba(217, 164, 65, 0.16), transparent 42%),
+    radial-gradient(circle at 60% 88%, rgba(184, 92, 56, 0.14), transparent 45%);
+  animation: aurora-drift 26s ease-in-out infinite alternate;
 }
 
 img {
@@ -146,20 +377,44 @@ h1, h2, h3 {
 }
 
 .nav-link {
+  position: relative;
+  display: inline-block;
   font-size: 0.95rem;
   color: rgba(246, 240, 226, 0.75);
   padding: 6px 2px;
   border-bottom: 2px solid transparent;
-  transition: color var(--transition), border-color var(--transition);
+  transition: color var(--transition), border-color var(--transition),
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Underline that sweeps out from the centre on hover */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background-color: var(--dul-yellow);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after,
+.nav-link.active::after {
+  transform: scaleX(1);
 }
 
 .nav-link:hover {
   color: var(--ivory);
+  transform: translateY(-1px);
 }
 
 .nav-link.active {
   color: var(--dul-yellow);
-  border-bottom-color: var(--dul-yellow);
+  border-bottom-color: transparent;
 }
 
 .navbar-toggle {
