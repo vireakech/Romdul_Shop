@@ -1265,12 +1265,6 @@ h1, h2, h3 {
   .process-strip {
     padding: 28px 22px;
   }
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-}
-=======
-=======
->>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
 }
 
 /* ============================================================================
@@ -2448,8 +2442,6 @@ form.is-shaking {
     opacity: 1;
   }
 }
-<<<<<<< HEAD
-
 /* ============ SHOP: PRODUCT CARDS & CART BUTTON ============ */
 
 /* script.js turns every catalogue card into a link to its product page by
@@ -3170,6 +3162,3 @@ form.is-shaking {
 }
 
 /* End of shop styles. */
->>>>>>> Stashed changes
-=======
->>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
