@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Romdul — Review your cart, enter your delivery address and place an order for handcrafted Khmer musical instruments.">
+    <meta name="keywords" content="Romdul, cart, checkout, Khmer instruments, delivery address, buy Khmer instruments">
+    <meta name="author" content="Romdul">
+    <meta name="robots" content="noindex, follow">
+    <meta name="theme-color" content="#000000">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Romdul — Cart &amp; Checkout">
+    <meta property="og:description" content="Review your instruments, add a delivery address and place your order.">
+    <meta property="og:url" content="https://www.romdul.com/cart.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Romdul — Cart &amp; Checkout">
+    <title>Cart &amp; Checkout — Romdul</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&amp;family=Work+Sans:wght@400;500;600&amp;display=swap">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="bg-decor" aria-hidden="true">
+        <span class="orb orb-one"></span>
+        <span class="orb orb-two"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+    </div>
+    <header class="navbar">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle-input" aria-label="Open navigation menu">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-logo" aria-label="Romdul Home">
+                <img src="Romdoul-flower-drawing.png" alt="Romdul Logo" class="logo-image">
+                <span class="logo-text">
+                    <span class="logo-rom">Rom</span><span class="logo-dul">dul</span>
+                </span>
+            </a>
+            <nav class="navbar-nav" aria-label="Main navigation">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="products.html" class="nav-link">Products</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+            <label for="nav-toggle" class="navbar-toggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </label>
+        </div>
+        <nav class="navbar-nav-mobile" aria-label="Mobile navigation">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="products.html" class="nav-link">Products</a>
+            <a href="services.html" class="nav-link">Services</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="page-hero-eyebrow-mark" aria-hidden="true"></div>
+            <h1>Your cart &amp; checkout</h1>
+            <p>Review your instruments, add your delivery address and place your order. Free shipping on orders over $200.</p>
+        </section>
+
+        <div class="cart-container" data-cart-page>
+            <noscript>
+                <p class="product-missing">Please enable JavaScript to view your cart and place an order.</p>
+            </noscript>
+
+            <div class="cart-empty" id="cart-empty" hidden>
+                <h2>Your cart is empty</h2>
+                <p>Browse the collection and add an instrument to get started.</p>
+                <a class="btn btn-primary" href="products.html">Browse instruments</a>
+            </div>
+
+            <div class="cart-layout" id="cart-layout" hidden>
+                <div class="cart-main">
+                    <section class="cart-panel">
+                        <h2>Your instruments</h2>
+                        <p class="cart-panel-note">Change the quantity with + or −, or remove an item you no longer need.</p>
+                        <div class="cart-items" id="cart-items"></div>
+                    </section>
+
+                    <section class="cart-panel">
+                        <h2>Delivery address</h2>
+                        <p class="cart-panel-note">We ship worldwide from our workshop in Phnom Penh and email a tracking number once your order is dispatched.</p>
+                        <form class="auth-form" id="checkout-form" action="/order" method="POST" data-custom-submit novalidate>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="order-name">Full name</label>
+                                    <input type="text" id="order-name" name="name" placeholder="Sok Dara" required autocomplete="name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="order-phone">Phone number</label>
+                                    <input type="tel" id="order-phone" name="phone" placeholder="+855 12 345 678" required autocomplete="tel">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="order-email">Email address</label>
+                                <input type="email" id="order-email" name="email" placeholder="you@example.com" required autocomplete="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="order-address">Street address</label>
+                                <input type="text" id="order-address" name="address" placeholder="No. 14, Street 240" required autocomplete="street-address">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="order-city">City / Province</label>
+                                    <input type="text" id="order-city" name="city" placeholder="Phnom Penh" required autocomplete="address-level2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="order-country">Country</label>
+                                    <input type="text" id="order-country" name="country" placeholder="Cambodia" required autocomplete="country-name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="order-notes">Delivery notes (optional)</label>
+                                <textarea id="order-notes" name="notes" rows="3" placeholder="Landmark, preferred delivery time, instrument case colour..."></textarea>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+
+                <aside class="cart-side">
+                    <div class="order-summary">
+                        <h2>Order summary</h2>
+                        <div class="summary-rows">
+                            <div class="summary-line"><span>Items</span><span id="sum-count">0</span></div>
+                            <div class="summary-line"><span>Subtotal</span><span id="sum-subtotal">$0</span></div>
+                            <div class="summary-line"><span>Shipping</span><span id="sum-shipping">—</span></div>
+                            <div class="summary-line summary-line-total"><span>Total</span><span id="sum-total">$0</span></div>
+                        </div>
+                        <button type="submit" form="checkout-form" class="btn btn-primary btn-block" id="place-order">Place order</button>
+                        <p class="summary-note">Free shipping on orders over $200. Taxes and import duties may apply on delivery.</p>
+                    </div>
+                </aside>
+            </div>
+
+            <section class="order-confirmation" id="order-confirmation" hidden>
+                <h2>Thank you — your order is confirmed</h2>
+                <p class="order-confirmation-number">Order number <strong id="order-number">RMD-000000</strong></p>
+                <div class="order-confirmation-rows" id="order-confirmation-rows"></div>
+                <p class="order-confirmation-note">This is a static demo, so no payment was taken and nothing will ship. Connect the checkout to a real payment provider to go live.</p>
+                <a class="btn btn-outline" href="products.html">Continue shopping</a>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p class="footer-copyright">&copy; 2026 Romdul. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Support</a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js" defer></script>
+</body>
+</html>

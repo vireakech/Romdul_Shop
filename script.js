@@ -18,6 +18,10 @@
      10. Button ripple + loading state
      11. Product / service card tilt + cursor spotlight
      12. Footer year + hash highlight
+<<<<<<< HEAD
+     13. Shop: catalogue, cart, product page & checkout
+=======
+>>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
    ========================================================================== */
 
 (function () {
@@ -558,7 +562,16 @@
         }
       });
 
+<<<<<<< HEAD
+      /* Forms that run their own submit flow (the checkout) opt out here. */
       form.addEventListener("submit", function (event) {
+        if (form.hasAttribute("data-custom-submit")) {
+          return;
+        }
+
+=======
+      form.addEventListener("submit", function (event) {
+>>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
         var firstInvalid = null;
 
         fields.forEach(function (field) {
@@ -756,6 +769,734 @@
   /* Bootstrap                                                           */
   /* ------------------------------------------------------------------ */
 
+<<<<<<< HEAD
+  /* ------------------------------------------------------------------ */
+  /* 13. Shop — catalogue, cart, product page & checkout                 */
+  /* ------------------------------------------------------------------ */
+
+  /* The whole catalogue lives in one place. The product page reads it by
+     slug (?id=…), the catalogue cards look their product up by image file
+     name, and the cart / checkout pages share the same prices. */
+  var PRODUCTS = {
+    "tro-sau": {
+      short: "Tro Sau",
+      km: "ត្រសៅ",
+      en: "Tro Sau — Two-String Fiddle",
+      price: 120,
+      image: "tro.png",
+      alt: "Tro Sau — traditional Khmer two-string fiddle",
+      stock: "In stock",
+      desc: "A vertically held two-string fiddle with a coconut-shell resonator covered in goat skin. Used in folk and classical ensembles for expressive melodies.",
+      highlights: [
+        "Coconut-shell resonator with a goat-skin soundboard",
+        "Hand-carved hardwood neck, pegs and bridge",
+        "Supplied with a bow and padded carry case"
+      ]
+    },
+    "roneat-ek": {
+      short: "Roneat Ek",
+      km: "រនាតឯក",
+      en: "Roneat Ek — Large Gong Xylophone",
+      price: 450,
+      image: "roneat.png",
+      alt: "Roneat Ek — traditional Khmer gong xylophone",
+      stock: "In stock",
+      desc: "A high-pitched bamboo and gong xylophone, the lead melodic instrument of the pinpeat orchestra. Hand-carved bars with gilded bronze keys.",
+      highlights: [
+        "Hand-tuned bronze keys on a carved bamboo frame",
+        "Gilded finish with traditional Khmer motifs",
+        "Includes a pair of wooden mallets"
+      ]
+    },
+    "skor-thom": {
+      short: "Skor Thom",
+      km: "ស្កុរធំ",
+      en: "Skor Thom — Large Double-Headed Drum",
+      price: 280,
+      image: "sko.png",
+      alt: "Skor Thom — large traditional Khmer drum",
+      stock: "In stock",
+      desc: "A deep, resonant barrel drum played with the hands, providing the rhythmic foundation of classical Khmer music. Made from carved hardwood and cowhide.",
+      highlights: [
+        "Carved hardwood barrel with cowhide heads",
+        "Rope-tensioned tuning system",
+        "Includes two drum beaters"
+      ]
+    },
+    "khim": {
+      short: "Khim",
+      km: "ខឹម",
+      en: "Khim — Hammered Dulcimer",
+      price: 310,
+      image: "khem.png",
+      alt: "Khim — traditional Khmer hammered dulcimer",
+      stock: "2 left",
+      desc: "A trapezoidal box strung with metal courses and struck with light bamboo hammers, prized for its bright, cascading tone in modern Khmer ensembles.",
+      highlights: [
+        "Trapezoidal soundbox strung with metal courses",
+        "Supplied with light bamboo hammers",
+        "Tuned to a Khmer classical scale"
+      ]
+    },
+    "kong-vong": {
+      short: "Kong Vong",
+      km: "គងវ៉ភ្នំ",
+      en: "Kong Vong — Circular Gong Chimes",
+      price: 380,
+      image: "kongvong.png",
+      alt: "Kong Vong — circular Khmer gong chime",
+      stock: "In stock",
+      desc: "A circular rack of 12 to 14 tuned gongs, struck with padded mallets. A central part of the pinpeat ensemble, providing shimmering harmonic accompaniment.",
+      highlights: [
+        "12 tuned bronze gongs on a carved circular frame",
+        "Includes padded mallets",
+        "Available in lead and accompaniment sizes"
+      ]
+    },
+    "chapei": {
+      short: "Chapei Dong Veng",
+      km: "ចាប៉ីដងវែង",
+      en: "Chapei Dong Veng — Long-Neck Lute",
+      price: 180,
+      image: "chapey.jpg",
+      alt: "Chapei Dong Veng — long-necked Khmer lute",
+      stock: "In stock",
+      desc: "A two-string plucked lute with a long fretted neck, traditionally used to accompany sung poetry and storytelling. Carved from a single piece of hardwood.",
+      highlights: [
+        "Carved from a single piece of hardwood",
+        "Long fretted neck tuned for sung poetry",
+        "Two strings with traditional friction pegs"
+      ]
+    },
+    "sralai": {
+      short: "Sralai",
+      km: "ស្រឡៃ",
+      en: "Sralai — Quadruple-Reed Oboe",
+      price: 95,
+      image: "trsav.png",
+      alt: "Sralai — traditional Khmer oboe",
+      stock: "In stock",
+      desc: "A conical hardwood oboe with a piercing, nasal tone that carries the melodic line of the pinpeat ensemble over the gongs and drums.",
+      highlights: [
+        "Conical hardwood body with a quadruple reed",
+        "Replacement reeds supplied with every order",
+        "Protective carry tube included"
+      ]
+    },
+    "pin": {
+      short: "Pin",
+      km: "ពិណ",
+      en: "Pin — Arched Harp",
+      price: 260,
+      image: "pin.png",
+      alt: "Pin — ancient Khmer arched harp",
+      stock: "Made to order",
+      desc: "An ancient arched harp with a boat-shaped resonator, revived from Angkorian bas-reliefs. A rare centrepiece for collectors and classical ensembles.",
+      highlights: [
+        "Boat-shaped resonator revived from Angkorian reliefs",
+        "Hand-finished with natural lacquer",
+        "Made to order in four to six weeks"
+      ]
+    }
+  };
+
+  var CART_KEY = "romdul-cart-v1";
+  var FREE_SHIPPING_FROM = 200;
+  var SHIPPING_FEE = 25;
+
+  function money(value) {
+    return "$" + Number(value).toLocaleString("en-US");
+  }
+
+  function setText(selector, value) {
+    var el = $(selector);
+
+    if (el) {
+      el.textContent = value;
+    }
+  }
+
+  /* Read a value out of the query string, e.g. ?id=khim */
+  function queryParam(name) {
+    var match = new RegExp("[?&]" + name + "=([^&]*)").exec(
+      window.location.search
+    );
+
+    return match ? decodeURIComponent(match[1].replace(/\+/g, " ")) : "";
+  }
+
+  /* Quantities are always whole numbers between 1 and 99. */
+  function clampQty(value) {
+    var number = parseInt(value, 10);
+
+    if (isNaN(number)) {
+      number = 1;
+    }
+
+    return Math.min(99, Math.max(1, number));
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Cart storage — a tiny slug → quantity map in localStorage           */
+  /* ------------------------------------------------------------------ */
+
+  function readCart() {
+    try {
+      var raw = window.localStorage.getItem(CART_KEY);
+      var data = raw ? JSON.parse(raw) : null;
+
+      return data && typeof data === "object" ? data : {};
+    } catch (error) {
+      return {};
+    }
+  }
+
+  function writeCart(cart) {
+    try {
+      window.localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    } catch (error) {
+      /* Private mode or a full quota: the page still works, the cart just
+         will not survive a page reload. */
+    }
+
+    refreshCartBadges(cart);
+  }
+
+  function cartSlugs(cart) {
+    return Object.keys(cart).filter(function (slug) {
+      return PRODUCTS[slug] && cart[slug] > 0;
+    });
+  }
+
+  function cartCount(cart) {
+    return cartSlugs(cart).reduce(function (total, slug) {
+      return total + cart[slug];
+    }, 0);
+  }
+
+  function cartSubtotal(cart) {
+    return cartSlugs(cart).reduce(function (total, slug) {
+      return total + PRODUCTS[slug].price * cart[slug];
+    }, 0);
+  }
+
+  /* Shipping is free over $200, otherwise a flat fee. */
+  function shippingFor(subtotal) {
+    if (subtotal <= 0) {
+      return 0;
+    }
+
+    return subtotal >= FREE_SHIPPING_FROM ? 0 : SHIPPING_FEE;
+  }
+
+  function addToCart(slug, qty) {
+    if (!PRODUCTS[slug]) {
+      return 0;
+    }
+
+    var cart = readCart();
+    cart[slug] = (cart[slug] || 0) + (qty > 0 ? qty : 1);
+    writeCart(cart);
+    return cart[slug];
+  }
+
+  function setCartQty(slug, qty) {
+    var cart = readCart();
+
+    if (qty > 0) {
+      cart[slug] = qty;
+    } else {
+      delete cart[slug];
+    }
+
+    writeCart(cart);
+  }
+
+  function removeFromCart(slug) {
+    var cart = readCart();
+    delete cart[slug];
+    writeCart(cart);
+  }
+
+  var CART_ICON =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+    'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' +
+    'aria-hidden="true">' +
+    '<circle cx="9" cy="20" r="1.4"></circle>' +
+    '<circle cx="18" cy="20" r="1.4"></circle>' +
+    '<path d="M2 3h3l2.4 12.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6L21 7H6"></path>' +
+    "</svg>";
+
+  /* Keep every cart badge on the page in step with the stored cart. */
+  function refreshCartBadges(cart) {
+    var count = cartCount(cart || readCart());
+
+    $$(".navbar-cart").forEach(function (link) {
+      var badge = $(".navbar-cart-count", link);
+
+      if (badge) {
+        badge.textContent = count > 99 ? "99+" : String(count);
+      }
+
+      link.classList.toggle("has-items", count > 0);
+      link.setAttribute(
+        "aria-label",
+        count > 0
+          ? "View cart, " + count + (count === 1 ? " item" : " items")
+          : "View cart"
+      );
+    });
+  }
+
+  /* Put a cart button in the navbar on every page, so the running total is
+     always visible. Kept in JS so each page's markup stays unchanged. */
+  function initNavCart() {
+    var container = $(".navbar-container");
+
+    if (container && !$(".navbar-cart", container)) {
+      var link = document.createElement("a");
+      var toggle = $(".navbar-toggle", container);
+
+      link.className = "navbar-cart";
+      link.href = "cart.html";
+      link.setAttribute("aria-label", "View cart");
+      link.innerHTML = CART_ICON + '<span class="navbar-cart-count">0</span>';
+
+      container.insertBefore(link, toggle || null);
+    }
+
+    refreshCartBadges(readCart());
+  }
+
+  /* Match a catalogue photo back to its product slug. */
+  function slugForImage(src) {
+    if (!src) {
+      return "";
+    }
+
+    var file = src.split("/").pop().split("?")[0];
+    var found = "";
+
+    Object.keys(PRODUCTS).some(function (slug) {
+      if (PRODUCTS[slug].image === file) {
+        found = slug;
+        return true;
+      }
+      return false;
+    });
+
+    return found;
+  }
+
+  /* Make every instrument card clickable (a stretched link to its product
+     page) and add a one-click "add to cart" button underneath. */
+  function initProductCards() {
+    var cards = $$(".product-card");
+
+    if (!cards.length) {
+      return;
+    }
+
+    cards.forEach(function (card) {
+      if (card.classList.contains("has-link")) {
+        return;
+      }
+
+      var image = $(".product-image", card);
+      var slug = slugForImage(image ? image.getAttribute("src") : "");
+
+      if (!slug) {
+        return;
+      }
+
+      var product = PRODUCTS[slug];
+      card.classList.add("has-link");
+
+      var link = document.createElement("a");
+      link.className = "product-card-link";
+      link.href = "product.html?id=" + slug;
+      link.setAttribute("aria-label", "View " + product.en + " details");
+      card.insertBefore(link, card.firstChild);
+
+      var actions = document.createElement("div");
+      actions.className = "product-card-actions";
+
+      var button = document.createElement("button");
+      button.type = "button";
+      button.className = "btn btn-small btn-primary";
+      button.setAttribute("data-add-to-cart", slug);
+      button.textContent = "Add to cart";
+      actions.appendChild(button);
+      card.appendChild(actions);
+
+      button.addEventListener("click", function () {
+        addToCart(slug, 1);
+        showToast(product.short + " added to your cart.", "success");
+
+        button.textContent = "Added ✓";
+        button.classList.add("is-added");
+
+        window.setTimeout(function () {
+          button.textContent = "Add to cart";
+          button.classList.remove("is-added");
+        }, 1500);
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Product detail page (product.html?id=…)                             */
+  /* ------------------------------------------------------------------ */
+
+  function initProductDetail() {
+    var root = $("[data-product-detail]");
+
+    if (!root) {
+      return;
+    }
+
+    var slug =
+      queryParam("id") || root.getAttribute("data-default-product") || "tro-sau";
+    var product = PRODUCTS[slug] || null;
+    var body = $("#pd-body");
+    var missing = $("#pd-missing");
+    var input = $("#pd-qty");
+
+    if (!product) {
+      if (missing) {
+        missing.hidden = false;
+      }
+      if (body) {
+        body.hidden = true;
+      }
+      return;
+    }
+
+    document.title = product.en + " — Romdul";
+
+    var image = $("#pd-image");
+    if (image) {
+      image.src = product.image;
+      image.alt = product.alt;
+    }
+
+    setText("[data-pd-crumb]", product.en);
+    setText("[data-pd-km]", product.km);
+    setText("[data-pd-en]", product.en);
+    setText("[data-pd-price]", money(product.price));
+    setText("[data-pd-stock]", product.stock);
+    setText("[data-pd-desc]", product.desc);
+
+    var highlights = $("#pd-highlights");
+    if (highlights) {
+      highlights.innerHTML = "";
+      product.highlights.forEach(function (item) {
+        var li = document.createElement("li");
+        li.textContent = item;
+        highlights.appendChild(li);
+      });
+    }
+
+    /* Redraw the running total whenever the quantity changes. */
+    function syncTotal() {
+      if (!input) {
+        return;
+      }
+
+      var qty = clampQty(input.value);
+      input.value = qty;
+
+      setText("[data-pd-total]", money(product.price * qty));
+
+      var buy = $("#pd-buy");
+      if (buy) {
+        buy.textContent = "Buy now — " + money(product.price * qty);
+      }
+    }
+
+    if (input) {
+      $$("[data-qty-step]", root).forEach(function (button) {
+        button.addEventListener("click", function () {
+          var step = parseInt(button.getAttribute("data-qty-step"), 10);
+          input.value = clampQty(input.value) + step;
+          syncTotal();
+        });
+      });
+
+      input.addEventListener("input", syncTotal);
+      input.addEventListener("change", syncTotal);
+      input.addEventListener("blur", syncTotal);
+    }
+
+    var add = $("#pd-add");
+    if (add) {
+      add.addEventListener("click", function () {
+        var qty = clampQty(input ? input.value : 1);
+        addToCart(slug, qty);
+        showToast(qty + " × " + product.short + " added to your cart.", "success");
+      });
+    }
+
+    var buy = $("#pd-buy");
+    if (buy) {
+      buy.addEventListener("click", function () {
+        addToCart(slug, clampQty(input ? input.value : 1));
+        window.location.href = "cart.html";
+      });
+    }
+
+    syncTotal();
+    refreshCartBadges(readCart());
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Cart & checkout page (cart.html)                                    */
+  /* ------------------------------------------------------------------ */
+
+  function initCartPage() {
+    var root = $("[data-cart-page]");
+
+    if (!root) {
+      return;
+    }
+
+    var itemsHost = $("#cart-items");
+    var emptyState = $("#cart-empty");
+    var layout = $("#cart-layout");
+    var confirmation = $("#order-confirmation");
+
+    function renderItems(cart) {
+      var slugs = cartSlugs(cart);
+      var subtotal = cartSubtotal(cart);
+      var shipping = shippingFor(subtotal);
+      var shippingLabel = "—";
+
+      if (subtotal > 0) {
+        shippingLabel = shipping > 0 ? money(shipping) : "Free";
+      }
+
+      setText("#sum-count", String(cartCount(cart)));
+      setText("#sum-subtotal", money(subtotal));
+      setText("#sum-shipping", shippingLabel);
+      setText("#sum-total", money(subtotal + shipping));
+
+      if (!slugs.length) {
+        if (emptyState) {
+          emptyState.hidden = false;
+        }
+        if (layout) {
+          layout.hidden = true;
+        }
+        refreshCartBadges(cart);
+        return;
+      }
+
+      if (emptyState) {
+        emptyState.hidden = true;
+      }
+      if (layout) {
+        layout.hidden = false;
+      }
+
+      itemsHost.innerHTML = "";
+
+      slugs.forEach(function (slug) {
+        var product = PRODUCTS[slug];
+        var qty = cart[slug];
+        var row = document.createElement("article");
+
+        row.className = "cart-item";
+        row.innerHTML =
+          '<div class="cart-item-media">' +
+          '<img src="' + product.image + '" alt="' + product.alt + '" loading="lazy">' +
+          "</div>" +
+          '<div class="cart-item-body">' +
+          '<div class="cart-item-name-km">' + product.km + "</div>" +
+          '<a class="cart-item-name-en" href="product.html?id=' + slug + '">' +
+          product.en +
+          "</a>" +
+          '<div class="cart-item-price">' + money(product.price) + " each</div>" +
+          "</div>" +
+          '<div class="cart-item-controls">' +
+          '<div class="quantity-stepper quantity-stepper-small">' +
+          '<button type="button" class="qty-btn" data-cart-step="-1" data-slug="' + slug + '" aria-label="Decrease ' + product.short + ' quantity">−</button>' +
+          '<input class="qty-input" type="number" min="1" max="99" step="1" value="' + qty + '" data-cart-qty data-slug="' + slug + '" aria-label="' + product.short + ' quantity">' +
+          '<button type="button" class="qty-btn" data-cart-step="1" data-slug="' + slug + '" aria-label="Increase ' + product.short + ' quantity">+</button>' +
+          "</div>" +
+          '<div class="cart-item-total">' + money(product.price * qty) + "</div>" +
+          '<button type="button" class="cart-item-remove" data-cart-remove data-slug="' + slug + '">Remove</button>' +
+          "</div>";
+
+        itemsHost.appendChild(row);
+      });
+
+      refreshCartBadges(cart);
+    }
+
+    function render() {
+      renderItems(readCart());
+    }
+
+    if (itemsHost) {
+      itemsHost.addEventListener("click", function (event) {
+        var step = event.target.closest("[data-cart-step]");
+        var remove = event.target.closest("[data-cart-remove]");
+
+        if (step) {
+          var stepSlug = step.getAttribute("data-slug");
+          var field = $('[data-cart-qty][data-slug="' + stepSlug + '"]', itemsHost);
+          var next =
+            clampQty(field ? field.value : 1) +
+            parseInt(step.getAttribute("data-cart-step"), 10);
+
+          setCartQty(stepSlug, next);
+          render();
+        } else if (remove) {
+          removeFromCart(remove.getAttribute("data-slug"));
+          showToast("Item removed from your cart.", "success");
+          render();
+        }
+      });
+
+      itemsHost.addEventListener("change", function (event) {
+        var field = event.target.closest("[data-cart-qty]");
+
+        if (!field) {
+          return;
+        }
+
+        setCartQty(field.getAttribute("data-slug"), clampQty(field.value));
+        render();
+      });
+    }
+
+    var form = $("#checkout-form");
+
+    if (!form) {
+      render();
+      return;
+    }
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      var fields = $$("input, select, textarea", form);
+      var firstInvalid = null;
+
+      fields.forEach(function (field) {
+        if (field.disabled) {
+          return;
+        }
+
+        var message = messageFor(field);
+        setFieldMessage(field, message);
+
+        if (message && !firstInvalid) {
+          firstInvalid = field;
+        }
+      });
+
+      if (firstInvalid) {
+        form.classList.remove("is-shaking");
+        void form.offsetWidth;
+        form.classList.add("is-shaking");
+        window.setTimeout(function () {
+          form.classList.remove("is-shaking");
+        }, 640);
+
+        showToast("Please complete your delivery details.", "error");
+        firstInvalid.focus({ preventScroll: true });
+        firstInvalid.scrollIntoView({
+          block: "center",
+          behavior: reduceMotion() ? "auto" : "smooth"
+        });
+        return;
+      }
+
+      var cart = readCart();
+
+      if (!cartCount(cart)) {
+        showToast("Your cart is empty — add an instrument first.", "error");
+        return;
+      }
+
+      var subtotal = cartSubtotal(cart);
+      var shipping = shippingFor(subtotal);
+      var total = subtotal + shipping;
+      var orderNo = "RMD-" + String(Date.now()).slice(-6);
+      var button = $("#place-order");
+
+      /* Read the delivery details before the cart is cleared. */
+      var deliveredTo =
+        ($("#order-name") ? $("#order-name").value : "") +
+        " · " +
+        ($("#order-city") ? $("#order-city").value : "") +
+        ", " +
+        ($("#order-country") ? $("#order-country").value : "");
+
+      if (button) {
+        button.classList.add("is-loading");
+      }
+
+      window.setTimeout(function () {
+        if (button) {
+          button.classList.remove("is-loading");
+        }
+
+        var rows = $("#order-confirmation-rows");
+
+        if (rows) {
+          rows.innerHTML = "";
+
+          var addLine = function (label, value, extraClass) {
+            var line = document.createElement("div");
+            var left = document.createElement("span");
+            var right = document.createElement("strong");
+
+            line.className =
+              "order-confirmation-line" + (extraClass ? " " + extraClass : "");
+            left.textContent = label;
+            right.textContent = value;
+            line.appendChild(left);
+            line.appendChild(right);
+            rows.appendChild(line);
+          };
+
+          addLine("Deliver to", deliveredTo);
+
+          cartSlugs(cart).forEach(function (slug) {
+            addLine(
+              PRODUCTS[slug].short + " × " + cart[slug],
+              money(PRODUCTS[slug].price * cart[slug])
+            );
+          });
+
+          addLine("Shipping", shipping > 0 ? money(shipping) : "Free");
+          addLine("Total paid", money(total), "summary-line-total");
+        }
+
+        setText("#order-number", orderNo);
+
+        writeCart({});
+        render();
+
+        if (confirmation) {
+          confirmation.hidden = false;
+          confirmation.scrollIntoView({
+            block: "start",
+            behavior: reduceMotion() ? "auto" : "smooth"
+          });
+        }
+
+        showToast("Order " + orderNo + " placed — thank you!", "success");
+      }, 700);
+    });
+
+    render();
+  }
+
+=======
+>>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
   function boot() {
     initScrollProgress();
     initReveal();
@@ -769,6 +1510,13 @@
     initCardTilt();
     initFooterYear();
     initHashHighlight();
+<<<<<<< HEAD
+    initNavCart();
+    initProductCards();
+    initProductDetail();
+    initCartPage();
+=======
+>>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
   }
 
   if (document.readyState === "loading") {
