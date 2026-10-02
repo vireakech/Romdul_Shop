@@ -18,7 +18,10 @@
      10. Button ripple + loading state
      11. Product / service card tilt + cursor spotlight
      12. Footer year + hash highlight
+<<<<<<< HEAD
      13. Shop: catalogue, cart, product page & checkout
+=======
+>>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
    ========================================================================== */
 
 (function () {
@@ -559,12 +562,16 @@
         }
       });
 
+<<<<<<< HEAD
       /* Forms that run their own submit flow (the checkout) opt out here. */
       form.addEventListener("submit", function (event) {
         if (form.hasAttribute("data-custom-submit")) {
           return;
         }
 
+=======
+      form.addEventListener("submit", function (event) {
+>>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
         var firstInvalid = null;
 
         fields.forEach(function (field) {
@@ -762,6 +769,7 @@
   /* Bootstrap                                                           */
   /* ------------------------------------------------------------------ */
 
+<<<<<<< HEAD
   /* ------------------------------------------------------------------ */
   /* 13. Shop — catalogue, cart, product page & checkout                 */
   /* ------------------------------------------------------------------ */
@@ -1487,6 +1495,8 @@
     render();
   }
 
+=======
+>>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
   function boot() {
     initScrollProgress();
     initReveal();
@@ -1500,10 +1510,13 @@
     initCardTilt();
     initFooterYear();
     initHashHighlight();
+<<<<<<< HEAD
     initNavCart();
     initProductCards();
     initProductDetail();
     initCartPage();
+=======
+>>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
   }
 
   if (document.readyState === "loading") {
