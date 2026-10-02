@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Romdul — Product details, price and stock for a handcrafted Khmer musical instrument. Choose a quantity and order online.">
+    <meta name="keywords" content="Romdul, Khmer instruments, buy Roneat, buy Tro, Cambodian music, product">
+    <meta name="author" content="Romdul">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#000000">
+    <meta property="og:type" content="product">
+    <meta property="og:title" content="Romdul — Product Details">
+    <meta property="og:description" content="Choose an instrument, pick a quantity and place your order.">
+    <meta property="og:url" content="https://www.romdul.com/product.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Romdul — Product Details">
+    <title>Product — Romdul</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&amp;family=Work+Sans:wght@400;500;600&amp;display=swap">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="scroll-progress" aria-hidden="true"></div>
+    <div class="bg-decor" aria-hidden="true">
+        <span class="orb orb-one"></span>
+        <span class="orb orb-two"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+        <span class="ember"></span>
+    </div>
+    <header class="navbar">
+        <input type="checkbox" id="nav-toggle" class="nav-toggle-input" aria-label="Open navigation menu">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-logo" aria-label="Romdul Home">
+                <img src="Romdoul-flower-drawing.png" alt="Romdul Logo" class="logo-image">
+                <span class="logo-text">
+                    <span class="logo-rom">Rom</span><span class="logo-dul">dul</span>
+                </span>
+            </a>
+            <nav class="navbar-nav" aria-label="Main navigation">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="products.html" class="nav-link active">Products</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </nav>
+            <label for="nav-toggle" class="navbar-toggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </label>
+        </div>
+        <nav class="navbar-nav-mobile" aria-label="Mobile navigation">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="products.html" class="nav-link active">Products</a>
+            <a href="services.html" class="nav-link">Services</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="page-hero-eyebrow-mark" aria-hidden="true"></div>
+            <h1>Choose your instrument and add it to your cart</h1>
+            <p>Pick the quantity you need — one for yourself, two for a duet — add your delivery address and place the order. We ship worldwide from Phnom Penh.</p>
+        </section>
+
+        <div class="product-detail-container" data-product-detail data-default-product="tro-sau">
+            <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="index.html">Home</a>
+                <span class="breadcrumb-sep" aria-hidden="true">/</span>
+                <a href="products.html">Products</a>
+                <span class="breadcrumb-sep" aria-hidden="true">/</span>
+                <span data-pd-crumb>Tro Sau — Two-String Fiddle</span>
+            </nav>
+
+            <p class="product-missing" id="pd-missing" hidden>
+                Sorry — we could not find that instrument.
+                <a href="products.html">Back to all products</a>.
+            </p>
+
+            <div class="product-detail" id="pd-body">
+                <div class="product-detail-media">
+                    <div class="product-detail-image-frame">
+                        <img id="pd-image"
+                             src="tro.png"
+                             alt="Tro Sau — traditional Khmer two-string fiddle"
+                             class="product-detail-image">
+                    </div>
+                </div>
+
+                <div class="product-detail-info">
+                    <div class="product-name-km" data-pd-km>ត្រសៅ</div>
+                    <h2 class="product-detail-title" data-pd-en>Tro Sau — Two-String Fiddle</h2>
+
+                    <div class="product-detail-meta">
+                        <span class="product-detail-price" data-pd-price>$120</span>
+                        <span class="product-detail-stock" data-pd-stock>In stock</span>
+                    </div>
+
+                    <p class="product-detail-desc" data-pd-desc>A vertically held two-string fiddle with a coconut-shell resonator covered in goat skin. Used in folk and classical ensembles for expressive melodies.</p>
+
+                    <ul class="product-detail-highlights" id="pd-highlights"></ul>
+
+                    <div class="quantity-row">
+                        <span class="quantity-label" id="pd-qty-label">Quantity</span>
+                        <div class="quantity-stepper">
+                            <button type="button" class="qty-btn" data-qty-step="-1" aria-label="Decrease quantity">−</button>
+                            <input class="qty-input" id="pd-qty" type="number" min="1" max="99" step="1" value="1" inputmode="numeric" aria-labelledby="pd-qty-label">
+                            <button type="button" class="qty-btn" data-qty-step="1" aria-label="Increase quantity">+</button>
+                        </div>
+                        <span class="quantity-hint">Use + to buy 1, 2, 3 or more of the same instrument.</span>
+                    </div>
+
+                    <div class="product-detail-actions">
+                        <button type="button" class="btn btn-primary" id="pd-add">Add to cart</button>
+                        <button type="button" class="btn btn-outline" id="pd-buy">Buy now — $120</button>
+                    </div>
+
+                    <div class="product-detail-total-row">
+                        <span>Order total</span>
+                        <strong data-pd-total>$120</strong>
+                    </div>
+
+                    <p class="product-detail-note">Free worldwide shipping on orders over $200. Every instrument is padded, crated and insured for transit, then play-tested before it leaves the workshop.</p>
+
+                    <noscript>
+                        <p class="product-detail-note">Please enable JavaScript to load full details, choose a quantity and complete checkout.</p>
+                    </noscript>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p class="footer-copyright">&copy; 2026 Romdul. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Support</a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js" defer></script>
+</body>
+</html>

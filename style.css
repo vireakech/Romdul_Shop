@@ -1394,4 +1394,1905 @@ h1, h2, h3 {
   .process-strip {
     padding: 28px 22px;
   }
+<<<<<<< Updated upstream
 }
+=======
+}
+
+/* ============================================================================
+   VISUAL POLISH LAYER
+   ----------------------------------------------------------------------------
+   Everything below this line is additive — no rule above it is modified, so
+   the original theme keeps working exactly as before. These rules add depth,
+   motion and interaction states driven by script.js.
+
+   Every animation is switched off by the prefers-reduced-motion block at the
+   very bottom of this file.
+   ============================================================================ */
+
+/* ---------- 1. New keyframes ------------------------------------------- */
+
+@keyframes orb-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(6%, 8%, 0) scale(1.14);
+  }
+}
+
+@keyframes ember-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.5);
+  }
+  12% {
+    opacity: 0.7;
+  }
+  80% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(30px, -108vh, 0) scale(1.2);
+  }
+}
+
+@keyframes nav-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes text-shimmer {
+  0%,
+  100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+@keyframes status-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes ripple-out {
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes border-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 1px rgba(217, 164, 65, 0.28), 0 18px 40px -22px rgba(10, 30, 22, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 1px rgba(217, 164, 65, 0.55), 0 22px 46px -22px rgba(10, 30, 22, 0.7);
+  }
+}
+
+@keyframes heart-beat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.16);
+  }
+  60% {
+    transform: scale(0.97);
+  }
+}
+
+/* ---------- 2. Ambient background: aurora orbs + drifting embers -------- */
+
+.bg-decor {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-decor .orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.42;
+}
+
+.bg-decor .orb-one {
+  width: 46vmax;
+  height: 46vmax;
+  top: -16vmax;
+  left: -14vmax;
+  background: radial-gradient(circle, rgba(31, 110, 82, 0.6), transparent 68%);
+  animation: orb-drift 26s ease-in-out infinite alternate;
+}
+
+.bg-decor .orb-two {
+  width: 38vmax;
+  height: 38vmax;
+  right: -12vmax;
+  bottom: -18vmax;
+  background: radial-gradient(circle, rgba(184, 92, 56, 0.42), transparent 70%);
+  animation: orb-drift 32s ease-in-out infinite alternate-reverse;
+}
+
+.bg-decor .ember {
+  position: absolute;
+  bottom: -12vh;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(217, 164, 65, 0.95), rgba(217, 164, 65, 0) 72%);
+  opacity: 0;
+  animation: ember-rise 18s linear infinite;
+}
+
+.bg-decor .ember:nth-child(3) {
+  left: 6%;
+  animation-duration: 19s;
+  animation-delay: -2s;
+}
+
+.bg-decor .ember:nth-child(4) {
+  left: 19%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 24s;
+  animation-delay: -9s;
+}
+
+.bg-decor .ember:nth-child(5) {
+  left: 33%;
+  animation-duration: 16s;
+  animation-delay: -5s;
+}
+
+.bg-decor .ember:nth-child(6) {
+  left: 47%;
+  width: 7px;
+  height: 7px;
+  animation-duration: 27s;
+  animation-delay: -13s;
+}
+
+.bg-decor .ember:nth-child(7) {
+  left: 61%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 21s;
+  animation-delay: -7s;
+}
+
+.bg-decor .ember:nth-child(8) {
+  left: 74%;
+  animation-duration: 18s;
+  animation-delay: -11s;
+}
+
+.bg-decor .ember:nth-child(9) {
+  left: 87%;
+  width: 6px;
+  height: 6px;
+  animation-duration: 25s;
+  animation-delay: -4s;
+}
+
+.bg-decor .ember:nth-child(10) {
+  left: 95%;
+  width: 4px;
+  height: 4px;
+  animation-duration: 20s;
+  animation-delay: -15s;
+}
+
+/* ---------- 3. Scroll reveal + progress bar ---------------------------- */
+
+/* Set by script.js on below-the-fold elements only, so nothing is ever hidden
+   for visitors without JavaScript. */
+[data-reveal] {
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-reveal="up"] {
+  transform: translateY(34px);
+}
+
+[data-reveal="down"] {
+  transform: translateY(-26px);
+}
+
+[data-reveal="left"] {
+  transform: translateX(-42px);
+}
+
+[data-reveal="right"] {
+  transform: translateX(42px);
+}
+
+[data-reveal="zoom"] {
+  transform: scale(0.9);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.scroll-progress {
+  box-shadow: 0 0 12px rgba(217, 164, 65, 0.55);
+}
+
+/* ---------- 4. Navbar ------------------------------------------------- */
+
+.navbar {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.navbar.is-scrolled {
+  background-color: rgba(14, 40, 34, 0.97);
+  box-shadow: 0 14px 34px -22px rgba(0, 0, 0, 0.9);
+  border-bottom-color: rgba(217, 164, 65, 0.4);
+}
+
+/* The real checkbox that drives the mobile menu. Visually hidden but still
+   reachable by keyboard, so the menu works with the keyboard too. */
+.nav-toggle-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.navbar-logo {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.navbar-logo:hover {
+  transform: translateY(-2px);
+}
+
+.logo-image {
+  animation: float-soft 5.5s ease-in-out infinite;
+  transition: filter 0.35s ease;
+}
+
+.navbar-logo:hover .logo-image {
+  animation-play-state: paused;
+  filter: drop-shadow(0 0 10px rgba(217, 164, 65, 0.6));
+}
+
+.logo-dul {
+  transition: text-shadow 0.35s ease;
+}
+
+.navbar-logo:hover .logo-dul {
+  text-shadow: 0 0 14px rgba(217, 164, 65, 0.75);
+}
+
+.nav-link::after {
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-link.active {
+  text-shadow: 0 0 16px rgba(217, 164, 65, 0.45);
+}
+
+.nav-toggle-input:focus-visible ~ .navbar-container .navbar-toggle {
+  outline: 2px solid var(--dul-yellow);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ---------- 5. Mobile navigation panel --------------------------------- */
+
+.navbar-nav-mobile {
+  background-color: rgba(14, 40, 34, 0.98);
+}
+
+.navbar-nav-mobile .nav-link {
+  transition: color 0.25s ease,
+    padding-left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.navbar-nav-mobile .nav-link:hover,
+.navbar-nav-mobile .nav-link:focus-visible {
+  color: var(--dul-yellow);
+  padding-left: 10px;
+}
+
+/* ---------- 6. Page hero ----------------------------------------------- */
+
+/* Rotate-only variant of medallion-spin, which is written for the
+   absolutely positioned auth divider. */
+@keyframes mark-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.page-hero {
+  animation: fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.page-hero-eyebrow-mark {
+  animation: mark-spin 26s linear infinite,
+    pulse-ring 5s ease-in-out infinite;
+}
+
+.page-hero h1 {
+  animation: page-hero-in 0.9s 0.08s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.page-hero p {
+  animation: fade-up 0.9s 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes page-hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Horizontal rule that draws outwards from the centre. */
+@keyframes rule-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Slow gold shimmer sweeping across the hero headline. */
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .page-hero h1 {
+    background-image: linear-gradient(
+      100deg,
+      var(--ivory) 0%,
+      var(--ivory) 32%,
+      var(--dul-yellow) 50%,
+      #ffe8b4 60%,
+      var(--ivory) 78%,
+      var(--ivory) 100%
+    );
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: page-hero-in 0.9s 0.08s cubic-bezier(0.22, 1, 0.36, 1) both,
+      text-shimmer 11s 1s ease-in-out infinite;
+  }
+}
+
+/* Animated rules that draw outwards from the centre when scrolled into view.
+   They are plain full-width rules by default, so this degrades cleanly. */
+.section-divider.is-visible::before,
+.section-divider.is-visible::after {
+  animation: rule-draw 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: center;
+}
+
+.section-divider span {
+  text-shadow: 0 0 18px rgba(217, 164, 65, 0.35);
+}
+
+/* ---------- 7. Auth cards --------------------------------------------- */
+
+.login-card {
+  animation: fade-up 0.9s 0.05s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.register-card {
+  animation: fade-up 0.9s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.auth-wrapper::after {
+  animation: medallion-spin 28s linear infinite;
+}
+
+.auth-card,
+.contact-form-card {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s ease;
+}
+
+.auth-card:hover,
+.contact-form-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 54px -24px rgba(10, 30, 22, 0.65);
+}
+
+.contact-form-card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Light sweep across the card on hover, reusing the `sheen` keyframe. */
+.auth-card::after,
+.contact-form-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 45%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-180%) skewX(-18deg);
+  pointer-events: none;
+}
+
+.auth-card:hover::after,
+.contact-form-card:hover::after {
+  animation: sheen 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- 8. Buttons ------------------------------------------------- */
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: background-image 0.3s ease, background-color 0.3s ease,
+    color 0.3s ease, box-shadow 0.35s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-primary {
+  background-image: linear-gradient(120deg, var(--rom-green), var(--rom-green-dark));
+  box-shadow: 0 10px 24px -15px rgba(31, 110, 82, 0.95);
+  letter-spacing: 0.01em;
+}
+
+.btn-primary:hover {
+  background-image: linear-gradient(120deg, var(--rom-green-dark), var(--rom-green));
+  box-shadow: 0 18px 32px -15px rgba(31, 110, 82, 1);
+  transform: translateY(-2px);
+}
+
+.register-card .btn-primary {
+  background-image: linear-gradient(120deg, var(--dul-yellow), var(--dul-yellow-dark));
+  box-shadow: 0 10px 24px -15px rgba(217, 164, 65, 0.95);
+  color: var(--ink-soft);
+}
+
+.register-card .btn-primary:hover {
+  background-image: linear-gradient(120deg, var(--dul-yellow-dark), var(--dul-yellow));
+  box-shadow: 0 18px 32px -15px rgba(217, 164, 65, 1);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(0.995);
+}
+
+/* Light sweep across the button face on hover. */
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  top: -25%;
+  bottom: -25%;
+  left: 0;
+  width: 55%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.42) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-190%) skewX(-18deg);
+  pointer-events: none;
+}
+
+.btn-primary:hover::after,
+.btn-primary:focus-visible::after {
+  animation: sheen 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Click ripple injected by script.js */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(246, 240, 226, 0.42);
+  transform: scale(0);
+  pointer-events: none;
+  animation: ripple-out 0.7s ease-out forwards;
+}
+
+.register-card .ripple {
+  background-color: rgba(21, 77, 58, 0.28);
+}
+
+/* Busy state while a form is being "submitted" */
+.btn.is-loading {
+  pointer-events: none;
+  color: transparent;
+}
+
+.btn.is-loading::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border: 2px solid rgba(21, 77, 58, 0.2);
+  border-top-color: var(--ink-soft);
+  border-radius: 50%;
+  animation: spin-slow 0.7s linear infinite;
+}
+
+.btn-primary.is-loading::before {
+  border-color: rgba(246, 240, 226, 0.35);
+  border-top-color: var(--ivory);
+}
+
+/* ---------- 9. Form fields -------------------------------------------- */
+
+.field-control {
+  position: relative;
+  display: flex;
+}
+
+.field-control input {
+  width: 100%;
+  padding-right: 46px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  color: var(--muted-text);
+  cursor: pointer;
+  transition: color 0.25s ease, background-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.password-toggle svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+}
+
+.password-toggle:hover {
+  color: var(--rom-green-dark);
+  background-color: rgba(31, 110, 82, 0.1);
+  transform: scale(1.08);
+}
+
+.password-toggle.is-revealed {
+  color: var(--rom-green);
+}
+
+.form-group label {
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.form-group:focus-within label {
+  color: var(--rom-green);
+  transform: translateX(2px);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  transition: border-color 0.25s ease, box-shadow 0.25s ease,
+    transform 0.25s ease, background-color 0.25s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  box-shadow: 0 0 0 3px rgba(31, 110, 82, 0.18),
+    0 10px 22px -18px rgba(31, 110, 82, 0.9);
+  transform: translateY(-1px);
+}
+
+/* Error state set by script.js */
+.form-group.has-error label,
+.form-options.has-error .checkbox-label {
+  color: var(--clay);
+}
+
+.form-group.has-error input,
+.form-group.has-error textarea,
+.form-group.has-error select {
+  border-color: var(--clay);
+  background-color: rgba(184, 92, 56, 0.04);
+}
+
+.form-group.has-error input:focus,
+.form-group.has-error textarea:focus,
+.form-group.has-error select:focus {
+  box-shadow: 0 0 0 3px rgba(184, 92, 56, 0.18);
+}
+
+.form-options.has-error .checkbox-label input[type="checkbox"] {
+  outline: 2px solid var(--clay);
+  outline-offset: 1px;
+  border-radius: 3px;
+}
+
+.field-note {
+  display: block;
+  font-size: 0.79rem;
+  line-height: 1.4;
+  color: var(--clay);
+}
+
+.field-note.is-fresh {
+  animation: status-in 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Password strength meter */
+.strength {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.strength.is-visible {
+  display: flex;
+  animation: fade-in 0.3s ease both;
+}
+
+.strength-track {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  background-color: rgba(35, 52, 47, 0.12);
+  overflow: hidden;
+}
+
+.strength-fill {
+  display: block;
+  height: 100%;
+  width: 10%;
+  border-radius: 999px;
+  background-color: var(--clay);
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.4s ease;
+}
+
+.strength-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted-text);
+  white-space: nowrap;
+}
+
+.strength[data-level="1"] .strength-fill {
+  width: 30%;
+  background-color: var(--clay);
+}
+
+.strength[data-level="2"] .strength-fill {
+  width: 55%;
+  background-color: var(--dul-yellow-dark);
+}
+
+.strength[data-level="3"] .strength-fill {
+  width: 78%;
+  background-color: var(--dul-yellow-dark);
+}
+
+.strength[data-level="4"] .strength-fill {
+  width: 100%;
+  background-color: var(--rom-green);
+}
+
+.strength[data-level="4"] .strength-label {
+  color: var(--rom-green);
+}
+
+/* Confirmation banner + whole-form shake on failed validation */
+.form-status.is-visible {
+  animation: status-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+form.is-shaking {
+  animation: shake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Flash applied by script.js when following a #login-card / #register-card link */
+.is-highlighted {
+  animation: border-glow 1.2s ease-in-out 2;
+}
+
+/* ---------- 10. Product & service cards -------------------------------- */
+
+.product-card,
+.service-card {
+  position: relative;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s ease;
+}
+
+/* script.js adds .is-tiltable on pointer devices that support hover */
+.product-card.is-tiltable {
+  transform: perspective(1000px) rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg));
+}
+
+.product-card.is-tiltable:hover {
+  transform: perspective(1000px) translateY(-6px) rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg));
+  box-shadow: 0 30px 60px -26px rgba(10, 30, 22, 0.75),
+    0 0 0 1px rgba(217, 164, 65, 0.35);
+}
+
+.product-card:not(.is-tiltable):hover,
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 30px 60px -26px rgba(10, 30, 22, 0.75),
+    0 0 0 1px rgba(217, 164, 65, 0.35);
+}
+
+.product-image-wrapper {
+  position: relative;
+}
+
+.product-image {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.5s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.07);
+  filter: saturate(1.08) contrast(1.03);
+}
+
+/* Spotlight that follows the pointer across the photo */
+.product-image-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--glow-x, 50%) var(--glow-y, 50%),
+    rgba(255, 255, 255, 0.34) 0%,
+    rgba(255, 255, 255, 0) 58%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.product-card:hover .product-image-wrapper::after {
+  opacity: 1;
+}
+
+.product-name-km {
+  transition: color 0.35s ease, text-shadow 0.35s ease;
+}
+
+.product-card:hover .product-name-km {
+  color: var(--rom-green-dark);
+  text-shadow: 0 0 20px rgba(31, 110, 82, 0.28);
+}
+
+.product-price {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.35s ease;
+}
+
+.product-card:hover .product-price {
+  transform: scale(1.07);
+}
+
+.product-stock {
+  transition: color 0.35s ease;
+}
+
+.product-card:hover .product-stock {
+  color: var(--ink-text);
+}
+
+/* ---------- 11. Process strip ------------------------------------------ */
+
+.process-strip {
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.4s ease, background-color 0.4s ease;
+}
+
+.process-strip:hover {
+  border-color: rgba(217, 164, 65, 0.4);
+  background-color: rgba(246, 240, 226, 0.09);
+}
+
+.process-strip::before {
+  content: "";
+  position: absolute;
+  inset: -40% -10%;
+  background: radial-gradient(
+    circle at 18% 0%,
+    rgba(217, 164, 65, 0.16),
+    rgba(217, 164, 65, 0) 62%
+  );
+  pointer-events: none;
+}
+
+.process-step {
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.process-step:hover {
+  transform: translateX(6px);
+}
+
+.process-step .step-label {
+  display: inline-block;
+  text-shadow: 0 0 20px rgba(217, 164, 65, 0.35);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    text-shadow 0.35s ease;
+}
+
+.process-step:hover .step-label {
+  transform: scale(1.12);
+  text-shadow: 0 0 28px rgba(217, 164, 65, 0.75);
+}
+
+/* ---------- 12. Contact details & social row --------------------------- */
+
+.info-item {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.info-item:hover {
+  transform: translateX(5px);
+}
+
+.info-icon {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.info-item:hover .info-icon {
+  transform: scale(1.09) rotate(-5deg);
+  background-color: rgba(217, 164, 65, 0.24);
+  box-shadow: 0 0 24px -6px rgba(217, 164, 65, 0.8);
+}
+
+.contact-info-card h3 {
+  text-shadow: 0 0 22px rgba(246, 240, 226, 0.25);
+}
+
+.social-row a {
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+
+.social-row a:hover {
+  transform: translateY(-4px) scale(1.07);
+  box-shadow: 0 12px 22px -14px rgba(217, 164, 65, 0.9);
+}
+
+.social-row a:hover svg {
+  animation: heart-beat 0.6s ease;
+}
+
+/* ---------- 13. Toast notifications ------------------------------------ */
+
+.toast-host {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(420px, calc(100vw - 32px));
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.toast {
+  padding: 13px 18px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--ivory);
+  background-color: rgba(14, 40, 34, 0.97);
+  border: 1px solid rgba(217, 164, 65, 0.45);
+  border-left-width: 3px;
+  border-radius: var(--radius);
+  box-shadow: 0 20px 46px -24px rgba(0, 0, 0, 0.95);
+  opacity: 0;
+  transform: translateY(14px) scale(0.96);
+  transition: opacity 0.35s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: toast-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.toast-success {
+  border-left-color: #43b581;
+}
+
+.toast-error {
+  border-left-color: var(--clay);
+}
+
+/* ---------- 14. Back-to-top -------------------------------------------- */
+
+.to-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 70;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid rgba(217, 164, 65, 0.5);
+  border-radius: 50%;
+  background-color: rgba(18, 51, 43, 0.92);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(18px) scale(0.85);
+  pointer-events: none;
+  transition: opacity 0.35s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.4s ease;
+}
+
+.to-top svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--dul-yellow);
+  fill: none;
+}
+
+.to-top.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.to-top:hover {
+  background-color: var(--rom-green);
+  border-color: var(--dul-yellow);
+  box-shadow: 0 0 26px -6px rgba(217, 164, 65, 0.9);
+  transform: translateY(-3px);
+}
+
+@supports ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
+  .to-top {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* ---------- 15. Finishing touches -------------------------------------- */
+
+::selection {
+  background-color: rgba(217, 164, 65, 0.38);
+  color: var(--ivory);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgba(14, 40, 34, 0.85);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(217, 164, 65, 0.5);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--dul-yellow);
+}
+
+/* ---------- 16. Responsive behaviour ----------------------------------- */
+
+@media (max-width: 768px) {
+  /* Checkbox fallback: the menu still opens if script.js never runs. */
+  .nav-toggle-input:checked ~ .navbar-nav-mobile {
+    display: flex;
+    animation: nav-drop 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .navbar-nav-mobile.is-open {
+    animation: nav-drop 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .navbar-nav-mobile .nav-link {
+    animation: fade-in 0.45s 0.05s ease both;
+  }
+
+  .navbar-nav-mobile .nav-link:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+
+  .navbar-nav-mobile .nav-link:nth-child(3) {
+    animation-delay: 0.15s;
+  }
+
+  .navbar-nav-mobile .nav-link:nth-child(4) {
+    animation-delay: 0.2s;
+  }
+
+  /* Hamburger turns into a cross straight from the checkbox state. */
+  .nav-toggle-input:checked ~ .navbar-container .navbar-toggle span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .nav-toggle-input:checked ~ .navbar-container .navbar-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle-input:checked ~ .navbar-container .navbar-toggle span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+
+@media (min-width: 769px) {
+  /* The menu checkbox is mobile-only — keep it out of the desktop tab order. */
+  .nav-toggle-input {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .to-top {
+    right: 14px;
+    bottom: 14px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .toast-host {
+    bottom: 74px;
+  }
+}
+
+/* ---------- 17. Motion preferences ------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-decor {
+    display: none;
+  }
+
+  .logo-image,
+  .page-hero,
+  .page-hero h1,
+  .page-hero p,
+  .page-hero-eyebrow-mark,
+  .login-card,
+  .register-card,
+  .auth-wrapper::after,
+  .section-divider::before,
+  .section-divider::after,
+  .toast,
+  .toast.is-visible,
+  form.is-shaking,
+  .is-highlighted,
+  .btn.is-loading::before,
+  .social-row a:hover svg,
+  .navbar-nav-mobile .nav-link,
+  .navbar-nav-mobile.is-open,
+  .nav-toggle-input:checked ~ .navbar-nav-mobile {
+    animation: none !important;
+  }
+
+  .product-card.is-tiltable,
+  .product-card.is-tiltable:hover,
+  .auth-card:hover,
+  .contact-form-card:hover,
+  .product-card:hover,
+  .service-card:hover,
+  .process-step:hover,
+  .info-item:hover,
+  .social-row a:hover,
+  .to-top:hover,
+  .btn-primary:hover {
+    transform: none;
+  }
+
+  .navbar-nav-mobile.is-open,
+  .nav-toggle-input:checked ~ .navbar-nav-mobile {
+    opacity: 1;
+  }
+}
+
+/* ============ SHOP: PRODUCT CARDS & CART BUTTON ============ */
+
+/* script.js turns every catalogue card into a link to its product page by
+   injecting one absolutely positioned anchor that stretches over the card. */
+.product-card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.product-card-link:focus-visible {
+  outline: 2px solid var(--dul-yellow);
+  outline-offset: 3px;
+}
+
+/* The "add to cart" button sits above that link so it stays clickable. */
+.product-card-actions {
+  position: relative;
+  z-index: 2;
+}
+
+.product-card-actions .btn {
+  width: 100%;
+}
+
+.product-card-actions .btn.is-added {
+  background-image: linear-gradient(120deg, #43b581, #2f8f64);
+  box-shadow: 0 10px 24px -15px rgba(67, 181, 129, 0.95);
+}
+
+/* Cart button that script.js adds to the navbar on every page */
+.navbar-cart {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: var(--ivory);
+  background-color: rgba(246, 240, 226, 0.06);
+  border: 1px solid rgba(217, 164, 65, 0.3);
+  transition: color var(--transition), border-color var(--transition),
+    background-color var(--transition),
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.navbar-cart svg {
+  width: 20px;
+  height: 20px;
+}
+
+.navbar-cart:hover,
+.navbar-cart:focus-visible {
+  color: var(--dul-yellow);
+  border-color: var(--dul-yellow);
+  background-color: rgba(217, 164, 65, 0.12);
+  transform: translateY(-1px);
+}
+
+.navbar-cart-count {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  min-width: 21px;
+  height: 21px;
+  padding: 0 5px;
+  border-radius: 999px;
+  font-family: var(--font);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 17px;
+  text-align: center;
+  color: var(--ink-soft);
+  background-color: var(--dul-yellow);
+  border: 2px solid rgba(18, 51, 43, 0.95);
+}
+
+.navbar-cart:not(.has-items) .navbar-cart-count {
+  color: rgba(246, 240, 226, 0.6);
+  background-color: rgba(246, 240, 226, 0.14);
+}
+
+/* ---------- Breadcrumb ---------- */
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 26px;
+  font-size: 0.85rem;
+  color: rgba(246, 240, 226, 0.6);
+}
+
+.breadcrumb a {
+  color: var(--dul-yellow);
+  transition: color var(--transition);
+}
+
+.breadcrumb a:hover {
+  color: var(--ivory);
+  text-decoration: underline;
+}
+
+.breadcrumb-sep {
+  color: rgba(246, 240, 226, 0.3);
+}
+
+.breadcrumb [data-pd-crumb] {
+  color: rgba(246, 240, 226, 0.85);
+}
+
+/* ---------- Product detail ---------- */
+
+.product-detail-container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 8px 32px 96px;
+}
+
+.product-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 44px;
+  align-items: start;
+  background-color: var(--ivory);
+  color: var(--ink-text);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow-card);
+  border-top: 3px solid var(--rom-green);
+}
+
+.product-detail-image-frame {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background-color: var(--ivory-dim);
+  aspect-ratio: 4 / 3;
+}
+
+.product-detail-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-detail-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.product-detail-price {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--rom-green-dark);
+}
+
+.product-detail-stock {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--rom-green-dark);
+  background-color: rgba(31, 110, 82, 0.12);
+  border: 1px solid rgba(31, 110, 82, 0.3);
+  border-radius: 999px;
+  padding: 5px 12px;
+}
+
+.product-detail-title {
+  margin: 4px 0 12px;
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  line-height: 1.18;
+  color: var(--ink-text);
+}
+
+.product-detail-desc {
+  margin-bottom: 18px;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--ink-text);
+}
+
+.product-detail-highlights {
+  list-style: none;
+  margin: 0 0 26px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.product-detail-highlights li {
+  position: relative;
+  padding-left: 26px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.product-detail-highlights li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--dul-yellow);
+  box-shadow: 0 0 0 3px rgba(217, 164, 65, 0.25);
+}
+
+/* ---------- Quantity stepper (+1 / -1) ---------- */
+
+.quantity-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.quantity-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-text);
+}
+
+.quantity-stepper {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(35, 52, 47, 0.18);
+  border-radius: var(--radius);
+  background-color: #ffffff;
+}
+
+.qty-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 42px;
+  font-family: var(--font);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--rom-green-dark);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.qty-btn:hover {
+  background-color: rgba(31, 110, 82, 0.1);
+  color: var(--rom-green);
+}
+
+.qty-input {
+  width: 56px;
+  height: 42px;
+  text-align: center;
+  font-family: var(--font);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink-text);
+  background-color: transparent;
+  border: none;
+  border-left: 1px solid rgba(35, 52, 47, 0.12);
+  border-right: 1px solid rgba(35, 52, 47, 0.12);
+  -moz-appearance: textfield;
+}
+
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.qty-input:focus {
+  outline: none;
+  background-color: rgba(217, 164, 65, 0.1);
+}
+
+.quantity-hint {
+  font-size: 0.78rem;
+  color: var(--muted-text);
+}
+
+/* ---------- Detail actions / totals ---------- */
+
+.product-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.product-detail-actions .btn {
+  flex: 1 1 auto;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--rom-green-dark);
+  border-color: rgba(31, 110, 82, 0.45);
+}
+
+.btn-outline:hover {
+  background-color: rgba(31, 110, 82, 0.1);
+  border-color: var(--rom-green);
+  color: var(--rom-green);
+}
+
+.product-detail-total-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background-color: var(--ivory-dim);
+  border: 1px dashed rgba(35, 52, 47, 0.2);
+}
+
+.product-detail-total-row span {
+  font-size: 0.85rem;
+  color: var(--muted-text);
+}
+
+.product-detail-total-row strong {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--rom-green-dark);
+}
+
+.product-detail-note {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--muted-text);
+}
+
+.product-missing {
+  padding: 20px 22px;
+  border-radius: var(--radius);
+  background-color: rgba(246, 240, 226, 0.06);
+  border: 1px solid rgba(217, 164, 65, 0.3);
+  color: var(--ivory);
+  font-size: 0.92rem;
+}
+
+.product-missing a {
+  color: var(--dul-yellow);
+  text-decoration: underline;
+}
+
+/* ============ CART & CHECKOUT ============ */
+
+.cart-container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 8px 32px 96px;
+}
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.cart-main {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.cart-panel {
+  background-color: var(--ivory);
+  color: var(--ink-text);
+  border-radius: var(--radius);
+  padding: 32px 30px;
+  box-shadow: var(--shadow-card);
+  border-top: 3px solid var(--rom-green);
+}
+
+.cart-panel h2 {
+  font-size: 1.35rem;
+  color: var(--ink-text);
+  margin-bottom: 6px;
+}
+
+.cart-panel-note {
+  margin: 0 0 24px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--muted-text);
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 16px;
+  border: 1px solid rgba(35, 52, 47, 0.12);
+  border-radius: var(--radius);
+  background-color: #ffffff;
+}
+
+.cart-item-media {
+  width: 96px;
+  height: 76px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background-color: var(--ivory-dim);
+}
+
+.cart-item-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cart-item-name-km {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--ink-text);
+}
+
+.cart-item-name-en {
+  display: inline-block;
+  margin: 2px 0 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--dul-yellow-dark);
+  transition: color var(--transition);
+}
+
+.cart-item-name-en:hover {
+  color: var(--rom-green);
+  text-decoration: underline;
+}
+
+.cart-item-price {
+  font-size: 0.85rem;
+  color: var(--muted-text);
+}
+
+.cart-item-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.quantity-stepper-small .qty-btn {
+  width: 32px;
+  height: 34px;
+  font-size: 0.95rem;
+}
+
+.quantity-stepper-small .qty-input {
+  width: 46px;
+  height: 34px;
+  font-size: 0.88rem;
+}
+
+.cart-item-total {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--rom-green-dark);
+}
+
+.cart-item-remove {
+  padding: 0;
+  font-family: var(--font);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--clay);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.cart-item-remove:hover {
+  color: var(--rom-green-dark);
+  text-decoration: underline;
+}
+
+/* ---------- Order summary ---------- */
+
+.cart-side {
+  position: sticky;
+  top: 96px;
+}
+
+.order-summary {
+  background-color: var(--ivory);
+  color: var(--ink-text);
+  border-radius: var(--radius);
+  padding: 30px 28px;
+  box-shadow: var(--shadow-card);
+  border-top: 3px solid var(--dul-yellow);
+}
+
+.order-summary h2 {
+  font-size: 1.25rem;
+  color: var(--ink-text);
+  margin-bottom: 20px;
+}
+
+.summary-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 18px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(35, 52, 47, 0.12);
+}
+
+.summary-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: var(--ink-text);
+}
+
+.summary-line span:last-child {
+  font-weight: 600;
+}
+
+.summary-line-total {
+  padding-top: 12px;
+  border-top: 1px dashed rgba(35, 52, 47, 0.18);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.summary-line-total span,
+.summary-line-total span:last-child {
+  color: var(--rom-green-dark);
+}
+
+.summary-note {
+  margin: 14px 0 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--muted-text);
+}
+
+/* ---------- Empty cart ---------- */
+
+.cart-empty {
+  padding: 72px 32px;
+  text-align: center;
+  border-radius: var(--radius);
+  background-color: rgba(246, 240, 226, 0.06);
+  border: 1px dashed rgba(217, 164, 65, 0.35);
+}
+
+.cart-empty h2 {
+  font-size: 1.5rem;
+  color: var(--ivory);
+  margin-bottom: 10px;
+}
+
+.cart-empty p {
+  margin-bottom: 26px;
+  color: rgba(246, 240, 226, 0.72);
+}
+
+/* ---------- Order confirmation ---------- */
+
+.order-confirmation {
+  margin-top: 40px;
+  background-color: var(--ivory);
+  color: var(--ink-text);
+  border-radius: var(--radius);
+  padding: 36px 34px;
+  box-shadow: var(--shadow-card);
+  border-top: 3px solid #43b581;
+}
+
+.order-confirmation h2 {
+  font-size: 1.4rem;
+  color: var(--rom-green-dark);
+  margin-bottom: 10px;
+}
+
+.order-confirmation-number {
+  margin-bottom: 22px;
+  font-size: 0.92rem;
+  color: var(--muted-text);
+}
+
+.order-confirmation-number strong {
+  color: var(--ink-text);
+}
+
+.order-confirmation-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.order-confirmation-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 10px;
+  font-size: 0.88rem;
+  border-bottom: 1px solid rgba(35, 52, 47, 0.1);
+}
+
+.order-confirmation-line strong {
+  font-weight: 600;
+}
+
+.order-confirmation-note {
+  margin-bottom: 22px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--muted-text);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .product-detail {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .cart-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .cart-side {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .cart-item {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+
+  .cart-item-media {
+    width: 76px;
+    height: 66px;
+  }
+
+  .cart-item-controls {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: 12px;
+    border-top: 1px solid rgba(35, 52, 47, 0.1);
+  }
+
+  .product-detail-actions .btn {
+    flex: 1 1 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-detail-container,
+  .cart-container {
+    padding: 8px 20px 64px;
+  }
+
+  .product-detail,
+  .cart-panel,
+  .order-summary,
+  .order-confirmation {
+    padding: 24px 20px;
+  }
+
+  .cart-empty {
+    padding: 48px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar-cart:hover,
+  .navbar-cart:focus-visible {
+    transform: none;
+  }
+}
+
+/* End of shop styles. */
+>>>>>>> Stashed changes
