@@ -18,10 +18,7 @@
      10. Button ripple + loading state
      11. Product / service card tilt + cursor spotlight
      12. Footer year + hash highlight
-<<<<<<< HEAD
      13. Shop: catalogue, cart, product page & checkout
-=======
->>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
    ========================================================================== */
 
 (function () {
@@ -128,7 +125,10 @@
     ".info-item",
     ".section-divider",
     ".map-frame",
-    ".social-row"
+    ".social-row",
+    ".home-split",
+    ".home-card",
+    ".home-cta"
   ].join(", ");
 
   function initReveal() {
@@ -510,6 +510,12 @@
       }
     }
 
+    if (field.type === "tel" && value) {
+      if (!/^[0-9+() -]{7,20}$/.test(value)) {
+        return "Enter a valid phone number, like +855 12 345 678.";
+      }
+    }
+
     if (field.minLength > 0 && value && value.length < field.minLength) {
       return "Use at least " + field.minLength + " characters.";
     }
@@ -562,16 +568,12 @@
         }
       });
 
-<<<<<<< HEAD
       /* Forms that run their own submit flow (the checkout) opt out here. */
       form.addEventListener("submit", function (event) {
         if (form.hasAttribute("data-custom-submit")) {
           return;
         }
 
-=======
-      form.addEventListener("submit", function (event) {
->>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
         var firstInvalid = null;
 
         fields.forEach(function (field) {
@@ -766,10 +768,285 @@
   }
 
   /* ------------------------------------------------------------------ */
+  /* 14. Profile — phone-number dialog                                   */
+  /* ------------------------------------------------------------------ */
+
+  var PROFILE_KEY = "romdul-profile-v1";
+
+  var PROFILE_ICON =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+    'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ' +
+    'aria-hidden="true">' +
+    '<circle cx="12" cy="8" r="3.6"></circle>' +
+    '<path d="M4.5 20a7.5 7.5 0 0 1 15 0"></path>' +
+    "</svg>";
+
+  /* The saved profile is a tiny { name, phone } object in localStorage. */
+  function readProfile() {
+    try {
+      var raw = window.localStorage.getItem(PROFILE_KEY);
+      var data = raw ? JSON.parse(raw) : null;
+
+      return data && typeof data === "object" ? data : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function writeProfile(profile) {
+    try {
+      window.localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+    } catch (error) {
+      /* Private mode: the profile just will not survive a reload. */
+    }
+
+    refreshProfileBadges();
+  }
+
+  /* A small gold dot shows when a phone number is already saved. */
+  function refreshProfileBadges() {
+    var saved = readProfile();
+    var hasPhone = !!(saved && saved.phone);
+
+    $$(".navbar-profile").forEach(function (button) {
+      button.classList.toggle("has-profile", hasPhone);
+      button.setAttribute(
+        "aria-label",
+        hasPhone ? "Open profile, phone number saved" : "Open profile"
+      );
+    });
+  }
+
+  /* Put a round profile button in the navbar on every page. */
+  function initNavProfile() {
+    var container = $(".navbar-container");
+
+    if (container && !$(".navbar-profile", container)) {
+      var button = document.createElement("button");
+      var toggle = $(".navbar-toggle", container);
+
+      button.type = "button";
+      button.className = "navbar-profile";
+      button.setAttribute("aria-label", "Open profile");
+      button.setAttribute("aria-haspopup", "dialog");
+      button.innerHTML =
+        PROFILE_ICON + '<span class="navbar-profile-dot"></span>';
+
+      container.insertBefore(button, toggle || null);
+    }
+
+    refreshProfileBadges();
+  }
+
+  /* The dialog is built here, once, so every page's markup stays unchanged. */
+  function initProfilePanel() {
+    if ($("#profile-overlay")) {
+      return;
+    }
+
+    var overlay = document.createElement("div");
+
+    overlay.className = "profile-overlay";
+    overlay.id = "profile-overlay";
+    overlay.hidden = true;
+    overlay.innerHTML =
+      '<div class="profile-backdrop" data-profile-close></div>' +
+      '<div class="profile-modal" role="dialog" aria-modal="true" ' +
+      'aria-labelledby="profile-title">' +
+      '<button type="button" class="profile-close" data-profile-close ' +
+      'aria-label="Close profile">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+      'stroke-width="2" stroke-linecap="round" aria-hidden="true">' +
+      '<path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>' +
+      "</button>" +
+      '<div class="profile-head">' +
+      '<span class="profile-avatar" aria-hidden="true">' +
+      PROFILE_ICON +
+      "</span>" +
+      '<div><p class="profile-eyebrow">Your account</p>' +
+      '<h2 id="profile-title">Profile</h2></div>' +
+      "</div>" +
+      '<p class="profile-lead">Add your phone number and our team in Phnom ' +
+      "Penh can reach you about orders, commissions and repairs.</p>" +
+      '<form class="auth-form profile-form" action="/profile" method="POST" ' +
+      "data-custom-submit novalidate>" +
+      '<div class="form-group">' +
+      '<label for="profile-phone">Phone Number</label>' +
+      '<input type="tel" id="profile-phone" name="phone" ' +
+      'placeholder="+855 12 345 678" required autocomplete="tel" ' +
+      'inputmode="tel">' +
+      "</div>" +
+      '<div class="form-group">' +
+      '<label for="profile-name">Full Name ' +
+      '<span class="field-hint">(optional)</span></label>' +
+      '<input type="text" id="profile-name" name="name" ' +
+      'placeholder="Sok Dara" autocomplete="name">' +
+      "</div>" +
+      '<button type="submit" class="btn btn-primary btn-block">' +
+      "Save phone number</button>" +
+      "</form>" +
+      '<div class="profile-success" hidden>' +
+      '<span class="profile-check" aria-hidden="true">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+      'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M4 12.5l5.2 5.2L20 7"></path></svg></span>' +
+      "<p>Phone number saved</p>" +
+      "</div>" +
+      "</div>";
+
+    document.body.appendChild(overlay);
+
+    var form = $(".profile-form", overlay);
+    var success = $(".profile-success", overlay);
+    var phone = $("#profile-phone", overlay);
+    var name = $("#profile-name", overlay);
+    var lastFocus = null;
+    var closeTimer = 0;
+
+    /* Pre-fill from the saved profile each time the dialog opens. */
+    function fill() {
+      var data = readProfile() || {};
+
+      if (phone) {
+        phone.value = data.phone || "";
+      }
+      if (name) {
+        name.value = data.name || "";
+      }
+      if (form) {
+        form.hidden = false;
+      }
+      if (success) {
+        success.hidden = true;
+      }
+    }
+
+    function open(trigger) {
+      lastFocus = trigger || document.activeElement;
+      fill();
+
+      overlay.hidden = false;
+      document.body.classList.add("profile-open");
+
+      /* Force a reflow so the entrance transition always plays. */
+      void overlay.offsetWidth;
+      overlay.classList.add("is-open");
+
+      window.setTimeout(
+        function () {
+          if (phone) {
+            phone.focus({ preventScroll: true });
+          }
+        },
+        reduceMotion() ? 0 : 260
+      );
+    }
+
+    function close() {
+      window.clearTimeout(closeTimer);
+      overlay.classList.remove("is-open");
+      document.body.classList.remove("profile-open");
+
+      function finish() {
+        overlay.hidden = true;
+      }
+
+      if (reduceMotion()) {
+        finish();
+      } else {
+        closeTimer = window.setTimeout(finish, 380);
+      }
+
+      /* Hand focus back to whatever opened the dialog. */
+      if (lastFocus && typeof lastFocus.focus === "function") {
+        lastFocus.focus({ preventScroll: true });
+      }
+      lastFocus = null;
+    }
+
+    /* Any element can open the dialog: the navbar button, or a
+       [data-profile-open] trigger such as the home-page call to action. */
+    document.addEventListener("click", function (event) {
+      var opener = event.target.closest("[data-profile-open], .navbar-profile");
+
+      if (!opener) {
+        return;
+      }
+
+      event.preventDefault();
+
+      if (overlay.hidden) {
+        open(opener);
+      } else {
+        close();
+      }
+    });
+
+    overlay.addEventListener("click", function (event) {
+      if (event.target.closest("[data-profile-close]")) {
+        close();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !overlay.hidden) {
+        close();
+      }
+    });
+
+    /* Saving validates the phone number, stores it, plays the tick
+       animation and then closes the dialog. */
+    if (form) {
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        var message = phone ? messageFor(phone) : "";
+
+        if (phone) {
+          setFieldMessage(phone, message);
+        }
+
+        if (message) {
+          form.classList.remove("is-shaking");
+          void form.offsetWidth;
+          form.classList.add("is-shaking");
+          window.setTimeout(function () {
+            form.classList.remove("is-shaking");
+          }, 640);
+          showToast("Please enter a valid phone number.", "error");
+
+          if (phone) {
+            phone.focus({ preventScroll: true });
+          }
+          return;
+        }
+
+        writeProfile({
+          phone: phone ? phone.value.trim() : "",
+          name: name ? name.value.trim() : ""
+        });
+
+        form.hidden = true;
+
+        if (success) {
+          success.hidden = false;
+        }
+
+        showToast("Phone number saved to your profile.", "success");
+
+        window.setTimeout(function () {
+          if (!overlay.hidden) {
+            close();
+          }
+        }, 1150);
+      });
+    }
+  }
+
+  /* ------------------------------------------------------------------ */
   /* Bootstrap                                                           */
   /* ------------------------------------------------------------------ */
 
-<<<<<<< HEAD
   /* ------------------------------------------------------------------ */
   /* 13. Shop — catalogue, cart, product page & checkout                 */
   /* ------------------------------------------------------------------ */
@@ -1495,8 +1772,6 @@
     render();
   }
 
-=======
->>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
   function boot() {
     initScrollProgress();
     initReveal();
@@ -1505,18 +1780,17 @@
     initPasswordToggles();
     initStrengthMeter();
     initConfirmMatch();
+    initProfilePanel();
     initForms();
     initRipple();
     initCardTilt();
     initFooterYear();
     initHashHighlight();
-<<<<<<< HEAD
+    initNavProfile();
     initNavCart();
     initProductCards();
     initProductDetail();
     initCartPage();
-=======
->>>>>>> e068485e5d9ad52699f3caf5acdcaf1c079294a7
   }
 
   if (document.readyState === "loading") {
