@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Romdul — Cambodian-inspired secure login and registration portal.">
-    <meta name="keywords" content="Romdul, login, register, Cambodia, Khmer, sign up, authentication">
+    <meta name="description" content="Romdul — handcrafted traditional Khmer musical instruments, made in Phnom Penh. Discover the sound of Cambodian culture.">
+    <meta name="keywords" content="Romdul, Khmer instruments, Cambodia, Khmer culture, Roneat, Tro, Chapei, pinpeat, handmade">
     <meta name="author" content="Romdul">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#000000">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Romdul — Login &amp; Register">
-    <meta property="og:description" content="Romdul secure login and registration portal.">
+    <meta property="og:title" content="Romdul — Handcrafted Khmer Instruments">
+    <meta property="og:description" content="Traditional Cambodian musical instruments, made by hand and rooted in Khmer culture.">
     <meta property="og:url" content="https://www.romdul.com/">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Romdul — Login &amp; Register">
-    <title>Romdul — Login &amp; Register</title>
+    <meta name="twitter:title" content="Romdul — Handcrafted Khmer Instruments">
+    <title>Romdul — Handcrafted Khmer Instruments</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,69 +61,170 @@
             <a href="contact.html" class="nav-link">Contact</a>
         </nav>
     </header>
-    <main class="auth-container">
-        <div class="auth-wrapper">
-            <section class="auth-card login-card" id="login-card">
-                <div class="card-header">
-                    <h2>Welcome Back</h2>
-                    <p>Log in to your Romdul account</p>
+    <main>
+        <section class="page-hero">
+            <div class="page-hero-eyebrow-mark" aria-hidden="true"></div>
+            <p class="hero-kicker">Handmade in Phnom Penh &middot; Khmer craft</p>
+            <h1>Khmer musical instruments, carved by hand</h1>
+            <p>Romdul builds and sells the instruments of Cambodia's classical ensembles &mdash; from the gilded Roneat to the singing Tro &mdash; so the sound of Khmer culture keeps travelling.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="products.html">Browse instruments</a>
+                <a class="btn btn-ghost" href="services.html">Our services</a>
+            </div>
+        </section>
+
+        <div class="home-container">
+
+            <section class="home-split">
+                <div class="home-split-copy">
+                    <p class="home-eyebrow">About the product</p>
+                    <h2>Made from a single plank, and made to be played</h2>
+                    <p>Every Romdul instrument starts as seasoned hardwood &mdash; khnor, neang nuon or rosewood &mdash; that our artisans carve, assemble and polish over weeks rather than hours. Nothing is veneered, and nothing is rushed.</p>
+                    <p>The voice is what matters. A Roneat rings with cool bronze, a Sralai carries over the gongs, and a Skor Thom speaks with a dry, wooden snap. Each piece is finished with natural lacquer and traditional Khmer motifs, so it looks the way it sounds.</p>
+                    <ul class="home-list">
+                        <li>Seasoned hardwood and natural materials &mdash; no veneer, no shortcuts</li>
+                        <li>Tuned by working musicians before the piece leaves the workshop</li>
+                        <li>Padded, crated and insured for tracked shipping worldwide</li>
+                    </ul>
+                    <a class="btn btn-primary" href="products.html">See the collection</a>
                 </div>
-                <form class="auth-form" action="/login" method="POST">
-                    <div class="form-group">
-                        <label for="login-email">Email Address</label>
-                        <input type="email" id="login-email" name="email" placeholder="you@example.com" required autocomplete="email">
+                <figure class="home-split-media">
+                    <img src="roneat.png" alt="Roneat Ek, a traditional Khmer gong xylophone" loading="lazy">
+                    <figcaption>Roneat Ek, <span class="km">រនាតឯក</span> &mdash; the lead voice of the pinpeat ensemble.</figcaption>
+                </figure>
+            </section>
+
+            <div class="section-divider"><span>The sound of Khmer culture</span></div>
+
+            <section class="home-culture">
+                <article class="home-card">
+                    <div class="home-card-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
                     </div>
-                    <div class="form-group">
-                        <label for="login-password">Password</label>
-                        <input type="password" id="login-password" name="password" placeholder="••••••••" required autocomplete="current-password">
+                    <p class="km">ពិណពាទ្យ</p>
+                    <h3>Pinpeat</h3>
+                    <p>The classical court ensemble of gongs, xylophones, oboes and drums that accompanies royal ceremonies, classical dance and masked theatre.</p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-card-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3v12"></path>
+                            <path d="M8 19a4 4 0 1 0 4-4"></path>
+                            <path d="M16 19a4 4 0 1 0 -4-4"></path>
+                        </svg>
                     </div>
-                    <div class="form-options">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="remember">
-                            <span>Remember me</span>
-                        </label>
-                        <a href="#" class="forgot-link">Forgot password?</a>
+                    <p class="km">មហោរី</p>
+                    <h3>Mohori</h3>
+                    <p>A gentler string-and-voice ensemble for weddings and celebrations, built around the Tro, the Khim and the long-necked Chapei.</p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-card-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 21h18"></path>
+                            <path d="M6 21V9l6-4 6 4v12"></path>
+                            <path d="M10 21v-6h4v6"></path>
+                        </svg>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Log In</button>
-                </form>
-                <div class="card-footer">
-                    <p>Don't have an account? <a href="#register-card" class="switch-link">Register here</a></p>
+                    <p class="km">អង្គរ</p>
+                    <h3>Angkorian roots</h3>
+                    <p>Instruments we still build today &mdash; the arched Pin, the barrel drums &mdash; are carved onto the walls of Angkor. We keep those ancient forms alive.</p>
+                </article>
+
+                <article class="home-card">
+                    <div class="home-card-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 7l3 3-8 8-4 1 1-4 8-8z"></path>
+                            <path d="M13 5l3 3"></path>
+                        </svg>
+                    </div>
+                    <p class="km">សិប្បកម្ម</p>
+                    <h3>Living craft</h3>
+                    <p>Each artisan in the workshop trained inside a family tradition, passing carving and tuning techniques from one generation to the next.</p>
+                </article>
+            </section>
+
+            <div class="section-divider"><span>Featured instruments</span></div>
+
+            <div class="product-grid">
+                <article class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="tro.png" alt="Tro Sau - traditional Khmer two-string fiddle" class="product-image" loading="lazy">
+                    </div>
+                    <div class="product-name-km">ត្រសៅ</div>
+                    <div class="product-name-en">Tro Sau &mdash; Two-String Fiddle</div>
+                    <p class="product-desc">A vertically held fiddle with a coconut-shell resonator, used for the expressive melodies of folk and classical Khmer music.</p>
+                    <div class="product-footer">
+                        <span class="product-price">$120</span>
+                        <span class="product-stock">In stock</span>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="kongvong.png" alt="Kong Vong - circular Khmer gong chime" class="product-image" loading="lazy">
+                    </div>
+                    <div class="product-name-km">គងវ៉ភ្នំ</div>
+                    <div class="product-name-en">Kong Vong &mdash; Circular Gong Chimes</div>
+                    <p class="product-desc">Twelve tuned bronze gongs on a carved circular frame, struck with padded mallets to shimmer beneath the pinpeat melody.</p>
+                    <div class="product-footer">
+                        <span class="product-price">$380</span>
+                        <span class="product-stock">In stock</span>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image-wrapper">
+                        <img src="chapey.jpg" alt="Chapei Dong Veng - long-necked Khmer lute" class="product-image" loading="lazy">
+                    </div>
+                    <div class="product-name-km">ចាប៉ីដងវែង</div>
+                    <div class="product-name-en">Chapei Dong Veng &mdash; Long-Neck Lute</div>
+                    <p class="product-desc">A two-string plucked lute with a long fretted neck, carved from a single piece of hardwood to accompany sung poetry.</p>
+                    <div class="product-footer">
+                        <span class="product-price">$180</span>
+                        <span class="product-stock">In stock</span>
+                    </div>
+                </article>
+            </div>
+
+            <div class="section-divider"><span>From log to concert hall</span></div>
+
+            <section class="process-strip">
+                <div class="process-step">
+                    <span class="step-label">01</span>
+                    <h4>Choose</h4>
+                    <p>We select seasoned hardwood and natural materials for the instrument, board by board.</p>
+                </div>
+                <div class="process-step">
+                    <span class="step-label">02</span>
+                    <h4>Carve</h4>
+                    <p>Artisans shape the body, keys and frame by hand, then finish the traditional carvings.</p>
+                </div>
+                <div class="process-step">
+                    <span class="step-label">03</span>
+                    <h4>Tune</h4>
+                    <p>A working musician tunes and plays the piece in the workshop &mdash; never on a machine.</p>
+                </div>
+                <div class="process-step">
+                    <span class="step-label">04</span>
+                    <h4>Deliver</h4>
+                    <p>Padded, crated and insured, with tracked delivery straight to your door.</p>
                 </div>
             </section>
-            <section class="auth-card register-card" id="register-card">
-                <div class="card-header">
-                    <h2>Create Account</h2>
-                    <p>Join Romdul today</p>
-                </div>
-                <form class="auth-form" action="/register" method="POST">
-                    <div class="form-group">
-                        <label for="register-name">Full Name</label>
-                        <input type="text" id="register-name" name="name" placeholder="John Doe" required autocomplete="name">
-                    </div>
-                    <div class="form-group">
-                        <label for="register-email">Email Address</label>
-                        <input type="email" id="register-email" name="email" placeholder="you@example.com" required autocomplete="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="register-password">Password</label>
-                        <input type="password" id="register-password" name="password" placeholder="Create a strong password" required autocomplete="new-password" minlength="8">
-                    </div>
-                    <div class="form-group">
-                        <label for="register-confirm">Confirm Password</label>
-                        <input type="password" id="register-confirm" name="confirm_password" placeholder="Confirm your password" required autocomplete="new-password" minlength="8">
-                    </div>
-                    <div class="form-options">
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="terms" required>
-                            <span>I agree to the <a href="#" class="terms-link">Terms &amp; Conditions</a></span>
-                        </label>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Register</button>
-                </form>
-                <div class="card-footer">
-                    <p>Already have an account? <a href="#login-card" class="switch-link">Log in here</a></p>
+
+            <section class="home-cta">
+                <h2>Keep your orders in one place</h2>
+                <p>Add your phone number to your Romdul profile and we will text you about deliveries, commissions and workshop news &mdash; no email required.</p>
+                <div class="home-cta-actions">
+                    <button type="button" class="btn btn-primary" data-profile-open>Add my phone number</button>
+                    <a class="btn btn-ghost" href="contact.html">Talk to the workshop</a>
                 </div>
             </section>
+
         </div>
     </main>
     <footer class="site-footer">
