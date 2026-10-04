@@ -1786,10 +1786,7 @@
     initCardTilt();
     initFooterYear();
     initHashHighlight();
-<<<<<<< HEAD
     initNavProfile();
-=======
->>>>>>> aec45507c751298511c9022d97fbd3c963b70876
     initNavCart();
     initProductCards();
     initProductDetail();
