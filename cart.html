@@ -134,9 +134,29 @@
                         <div class="summary-rows">
                             <div class="summary-line"><span>Items</span><span id="sum-count">0</span></div>
                             <div class="summary-line"><span>Subtotal</span><span id="sum-subtotal">$0</span></div>
+                            <div class="summary-line summary-line-discount" id="sum-discount-row" hidden><span id="sum-discount-label">Voucher</span><span id="sum-discount">$0</span></div>
                             <div class="summary-line"><span>Shipping</span><span id="sum-shipping">—</span></div>
                             <div class="summary-line summary-line-total"><span>Total</span><span id="sum-total">$0</span></div>
                         </div>
+
+                        <form class="voucher-form" id="voucher-form" data-custom-submit novalidate>
+                            <label class="voucher-label" for="voucher-code">Voucher code</label>
+                            <div class="voucher-row">
+                                <input class="voucher-input" type="text" id="voucher-code" name="voucher" placeholder="ROMDUL20" autocomplete="off" autocapitalize="characters" spellcheck="false">
+                                <button type="submit" class="btn btn-primary btn-small">Apply</button>
+                            </div>
+                            <p class="voucher-note" id="voucher-note" role="status"></p>
+                            <p class="voucher-hint">Try <strong>ROMDUL20</strong> for 20% off or <strong>ROMDUL30</strong> for 30% off. One code per order, while stocks last.</p>
+                        </form>
+
+                        <div class="voucher-applied" id="voucher-applied" hidden>
+                            <div class="voucher-applied-text">
+                                <span class="voucher-applied-title">Voucher applied</span>
+                                <span class="voucher-applied-code" id="voucher-applied-code"></span>
+                            </div>
+                            <button type="button" class="voucher-remove" id="voucher-remove">Remove</button>
+                        </div>
+
                         <button type="submit" form="checkout-form" class="btn btn-primary btn-block" id="place-order">Place order</button>
                         <p class="summary-note">Free shipping on orders over $200. Taxes and import duties may apply on delivery.</p>
                     </div>

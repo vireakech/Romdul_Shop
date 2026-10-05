@@ -1181,8 +1181,27 @@
   var FREE_SHIPPING_FROM = 200;
   var SHIPPING_FEE = 25;
 
+  /* Vouchers — a percentage off the item subtotal, keyed by code. Each code is
+     single use: the first person to check out with it keeps the discount. */
+  var VOUCHER_KEY = "romdul-vouchers-v1";
+  var VOUCHERS = {
+    ROMDUL20: 20,
+    ROMDUL30: 30
+  };
+
+  /* Whole prices stay plain ($95) and anything with cents gets two decimals
+     ($28.50), which is what a percentage discount produces. */
   function money(value) {
-    return "$" + Number(value).toLocaleString("en-US");
+    var amount = Number(value) || 0;
+    var hasCents = Math.abs(amount % 1) > 0.004;
+
+    return (
+      "$" +
+      amount.toLocaleString("en-US", {
+        minimumFractionDigits: hasCents ? 2 : 0,
+        maximumFractionDigits: 2
+      })
+    );
   }
 
   function setText(selector, value) {
@@ -1264,6 +1283,97 @@
     }
 
     return subtotal >= FREE_SHIPPING_FROM ? 0 : SHIPPING_FEE;
+  }
+
+  /* ------------------------------------------------------------------ */
+  /* Voucher storage — { code: "ROMDUL20", spent: ["ROMDUL20", …] }       */
+  /* ------------------------------------------------------------------ */
+
+  function readVoucherState() {
+    try {
+      var raw = window.localStorage.getItem(VOUCHER_KEY);
+      var data = raw ? JSON.parse(raw) : null;
+
+      if (!data || typeof data !== "object") {
+        return { code: "", spent: [] };
+      }
+
+      return {
+        code: typeof data.code === "string" ? data.code : "",
+        spent: Array.isArray(data.spent) ? data.spent : []
+      };
+    } catch (error) {
+      return { code: "", spent: [] };
+    }
+  }
+
+  function writeVoucherState(state) {
+    try {
+      window.localStorage.setItem(VOUCHER_KEY, JSON.stringify(state));
+    } catch (error) {
+      /* Nothing to do — the discount simply won't survive a reload. */
+    }
+  }
+
+  /* Codes are matched loosely: " romdul20 " and "romdul20" both work. */
+  function normaliseVoucherCode(value) {
+    return String(value || "")
+      .trim()
+      .toUpperCase()
+      .replace(/[\s-]+/g, "");
+  }
+
+  function voucherPercent(code) {
+    /* Own-property lookup only, so a code like "CONSTRUCTOR" can never pick up
+       something inherited from Object.prototype. */
+    return Object.prototype.hasOwnProperty.call(VOUCHERS, code)
+      ? VOUCHERS[code]
+      : 0;
+  }
+
+  /* Check a typed code. Returns the normalised code or an error message. */
+  function checkVoucherCode(value, state) {
+    var code = normaliseVoucherCode(value);
+
+    if (!code) {
+      return { error: "Enter a voucher code to apply it." };
+    }
+
+    if (!voucherPercent(code)) {
+      return { error: "That voucher code is not recognised." };
+    }
+
+    if (state.spent.indexOf(code) > -1) {
+      return {
+        error:
+          code + " has already been used — each voucher works only once."
+      };
+    }
+
+    return { code: code };
+  }
+
+  /* One place that turns a cart into the numbers shown at checkout, so the
+     summary, the button label and the order confirmation can never disagree.
+
+     Shipping is charged on the discounted subtotal, which means a voucher can
+     also tip an order over the free-shipping threshold. */
+  function cartTotals(cart, state) {
+    var subtotal = cartSubtotal(cart);
+    var percent = voucherPercent(state.code);
+    var discount = percent > 0 ? Math.round(subtotal * percent) / 100 : 0;
+    var discounted = Math.max(0, subtotal - discount);
+    var shipping = shippingFor(discounted);
+
+    return {
+      count: cartCount(cart),
+      subtotal: subtotal,
+      code: state.code,
+      percent: percent,
+      discount: discount,
+      shipping: shipping,
+      total: discounted + shipping
+    };
   }
 
   function addToCart(slug, qty) {
@@ -1544,18 +1654,33 @@
 
     function renderItems(cart) {
       var slugs = cartSlugs(cart);
-      var subtotal = cartSubtotal(cart);
-      var shipping = shippingFor(subtotal);
+      var voucher = readVoucherState();
+      var totals = cartTotals(cart, voucher);
       var shippingLabel = "—";
 
-      if (subtotal > 0) {
-        shippingLabel = shipping > 0 ? money(shipping) : "Free";
+      if (totals.subtotal > 0) {
+        shippingLabel = totals.shipping > 0 ? money(totals.shipping) : "Free";
       }
 
-      setText("#sum-count", String(cartCount(cart)));
-      setText("#sum-subtotal", money(subtotal));
+      setText("#sum-count", String(totals.count));
+      setText("#sum-subtotal", money(totals.subtotal));
       setText("#sum-shipping", shippingLabel);
-      setText("#sum-total", money(subtotal + shipping));
+      setText("#sum-total", money(totals.total));
+
+      /* The discount row only exists while a voucher is applied. */
+      var discountRow = $("#sum-discount-row");
+
+      if (discountRow) {
+        discountRow.hidden = totals.discount <= 0;
+      }
+
+      if (totals.discount > 0) {
+        setText(
+          "#sum-discount-label",
+          "Voucher " + totals.code + " (" + totals.percent + "% off)"
+        );
+        setText("#sum-discount", "−" + money(totals.discount));
+      }
 
       if (!slugs.length) {
         if (emptyState) {
@@ -1647,9 +1772,108 @@
       });
     }
 
+    /* ---------------------------------------------------------------- */
+    /* Voucher box — apply, swap or remove a code                        */
+    /* ---------------------------------------------------------------- */
+
+    var voucherForm = $("#voucher-form");
+    var voucherField = $("#voucher-code");
+    var voucherNote = $("#voucher-note");
+    var voucherRemove = $("#voucher-remove");
+    var voucherApplied = $("#voucher-applied");
+
+    function sayVoucherMessage(text, variant) {
+      if (!voucherNote) {
+        return;
+      }
+
+      voucherNote.textContent = text;
+      voucherNote.className =
+        "voucher-note" + (variant ? " voucher-note-" + variant : "");
+    }
+
+    /* Keep the two states — "type a code" and "code applied" — in step with
+       whatever is actually stored, so a reload or a shared cart still looks
+       right. */
+    function syncVoucherBox() {
+      var state = readVoucherState();
+      var hasVoucher = voucherPercent(state.code) > 0;
+
+      if (voucherApplied) {
+        voucherApplied.hidden = !hasVoucher;
+      }
+
+      if (voucherForm) {
+        voucherForm.hidden = hasVoucher;
+      }
+
+      if (hasVoucher) {
+        setText(
+          "#voucher-applied-code",
+          state.code + " · " + voucherPercent(state.code) + "% off"
+        );
+      }
+
+      if (voucherField) {
+        voucherField.value = "";
+      }
+    }
+
+    if (voucherForm && voucherField) {
+      voucherForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        var state = readVoucherState();
+        var result = checkVoucherCode(voucherField.value, state);
+
+        if (result.error) {
+          sayVoucherMessage(result.error, "error");
+          showToast(result.error, "error");
+
+          voucherForm.classList.remove("is-shaking");
+          void voucherForm.offsetWidth;
+          voucherForm.classList.add("is-shaking");
+          window.setTimeout(function () {
+            voucherForm.classList.remove("is-shaking");
+          }, 640);
+
+          voucherField.focus({ preventScroll: true });
+          return;
+        }
+
+        state.code = result.code;
+        writeVoucherState(state);
+
+        sayVoucherMessage("", null);
+        showToast(
+          "Voucher " + state.code + " applied — " + voucherPercent(state.code) + "% off.",
+          "success"
+        );
+
+        syncVoucherBox();
+        render();
+      });
+    }
+
+    if (voucherRemove) {
+      voucherRemove.addEventListener("click", function () {
+        var state = readVoucherState();
+
+        state.code = "";
+        writeVoucherState(state);
+
+        sayVoucherMessage("", null);
+        showToast("Voucher removed.", "success");
+
+        syncVoucherBox();
+        render();
+      });
+    }
+
     var form = $("#checkout-form");
 
     if (!form) {
+      syncVoucherBox();
       render();
       return;
     }
@@ -1697,9 +1921,8 @@
         return;
       }
 
-      var subtotal = cartSubtotal(cart);
-      var shipping = shippingFor(subtotal);
-      var total = subtotal + shipping;
+      var voucher = readVoucherState();
+      var totals = cartTotals(cart, voucher);
       var orderNo = "RMD-" + String(Date.now()).slice(-6);
       var button = $("#place-order");
 
@@ -1748,13 +1971,33 @@
             );
           });
 
-          addLine("Shipping", shipping > 0 ? money(shipping) : "Free");
-          addLine("Total paid", money(total), "summary-line-total");
+          if (totals.discount > 0) {
+            addLine(
+              "Voucher " + totals.code + " (" + totals.percent + "% off)",
+              "−" + money(totals.discount),
+              "summary-line-discount"
+            );
+          }
+
+          addLine(
+            "Shipping",
+            totals.shipping > 0 ? money(totals.shipping) : "Free"
+          );
+          addLine("Total paid", money(totals.total), "summary-line-total");
         }
 
         setText("#order-number", orderNo);
 
+        /* A voucher is good for one order only — spend it here and it is gone,
+           which is what makes it a "first person only" offer. */
+        if (totals.code) {
+          voucher.code = "";
+          voucher.spent = voucher.spent.concat([totals.code]);
+          writeVoucherState(voucher);
+        }
+
         writeCart({});
+        syncVoucherBox();
         render();
 
         if (confirmation) {
@@ -1769,6 +2012,7 @@
       }, 700);
     });
 
+    syncVoucherBox();
     render();
   }
 
